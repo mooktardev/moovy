@@ -55,8 +55,8 @@ export function MediaDetails({
   const watchlistItem: WatchlistItem = toWatchlistItem(media, similarKind);
   return (
     <article className="pb-12">
-      {/* Bandeau backdrop */}
-      <div className="relative h-[42vh] max-h-[560px] min-h-[280px]">
+      {/* Hero : couverture entièrement visible, contenu superposé sur dégradé */}
+      <div className="from-surface-2 to-background relative h-[42vh] max-h-[560px] min-h-[280px] overflow-hidden bg-gradient-to-b">
         {backdrop ? (
           <Image
             src={backdrop}
@@ -64,53 +64,61 @@ export function MediaDetails({
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-contain"
           />
         ) : (
           <div className="bg-surface-2 h-full" />
         )}
-        <div className="from-background via-background/50 absolute inset-0 bg-gradient-to-t to-transparent" />
-      </div>
 
-      {/* En-tête : affiche + infos, sous le bandeau (titre toujours lisible) */}
-      <div className="mx-auto max-w-7xl px-4 pt-6 md:px-6">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-          <div className="rounded-card bg-surface-2 ring-border relative aspect-[2/3] w-36 shrink-0 overflow-hidden ring-1 sm:w-44">
-            {poster ? (
-              <Image
-                src={poster}
-                alt={`Affiche de ${title}`}
-                fill
-                sizes="176px"
-                className="object-cover"
-              />
-            ) : (
-              <PosterPlaceholder />
-            )}
-          </div>
+        {/* Dégradé de lisibilité pour le contenu superposé */}
+        <div className="from-background via-background/70 absolute inset-0 bg-gradient-to-t to-transparent" />
 
-          <div className="min-w-0 flex-1">
-            <h1 className="font-display text-3xl font-bold md:text-4xl">
-              {title}
-            </h1>
-            {tagline && <p className="text-muted mt-1 italic">« {tagline} »</p>}
-            <div className="text-muted mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
-              {rating > 0 && <RatingRing vote={rating} />}
-              {year && <span>{year}</span>}
-              {metaLine && <span>{metaLine}</span>}
-            </div>
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              {trailerUrl && (
-                <Link
-                  href={trailerUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-primary hover:bg-primary/90 focus-visible:ring-primary inline-block rounded-lg px-5 py-2.5 font-medium text-white transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
-                >
-                  Bande-annonce
-                </Link>
-              )}
-              <WatchlistButton item={watchlistItem} variant="inline" />
+        {/* En-tête superposé : affiche + titre + infos */}
+        <div className="absolute inset-x-0 bottom-0">
+          <div className="mx-auto max-w-7xl px-4 pb-6 md:px-6">
+            <div className="flex items-end gap-4 sm:gap-6">
+              <div className="rounded-card bg-surface-2 ring-border relative aspect-[2/3] w-28 shrink-0 overflow-hidden shadow-lg ring-1 sm:w-40 md:w-44">
+                {poster ? (
+                  <Image
+                    src={poster}
+                    alt={`Affiche de ${title}`}
+                    fill
+                    sizes="(max-width: 640px) 112px, 176px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <PosterPlaceholder />
+                )}
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <h1 className="font-display text-2xl font-bold drop-shadow-sm sm:text-3xl md:text-4xl">
+                  {title}
+                </h1>
+                {tagline && (
+                  <p className="text-muted mt-1 hidden italic sm:block">
+                    « {tagline} »
+                  </p>
+                )}
+                <div className="text-muted mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm md:mt-3">
+                  {rating > 0 && <RatingRing vote={rating} />}
+                  {year && <span>{year}</span>}
+                  {metaLine && <span>{metaLine}</span>}
+                </div>
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  {trailerUrl && (
+                    <Link
+                      href={trailerUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-primary hover:bg-primary/90 focus-visible:ring-primary inline-block rounded-lg px-5 py-2.5 font-medium text-white transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
+                    >
+                      Bande-annonce
+                    </Link>
+                  )}
+                  <WatchlistButton item={watchlistItem} variant="inline" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

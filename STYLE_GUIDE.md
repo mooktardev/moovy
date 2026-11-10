@@ -126,7 +126,7 @@ Règles : un seul `h1` par page, `max-w-prose` pour les synopsis, titres longs t
 
 **Hero**
 
-- Backdrop pleine largeur avec dégradé `bg-gradient-to-t from-background via-background/60 to-transparent` pour la lisibilité du texte.
+- Backdrop pleine largeur, image **entièrement visible** (`object-contain`) sur fond dégradé `from-surface-2 to-background` ; affiche, titre et infos **superposés** en bas, protégés par un dégradé de lisibilité `bg-gradient-to-t from-background via-background/70 to-transparent`.
 
 ## 7. Images
 
