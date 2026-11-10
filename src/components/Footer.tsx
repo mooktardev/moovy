@@ -15,7 +15,7 @@ function ExternalLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:text-foreground focus-visible:ring-primary inline-block rounded px-0.5 font-medium underline-offset-2 transition duration-200 ease-out hover:underline focus-visible:ring-2 focus-visible:outline-none"
+      className="hover:text-foreground focus-visible:ring-primary inline-block rounded font-medium underline-offset-2 transition duration-200 ease-out hover:underline focus-visible:ring-2 focus-visible:outline-none"
     >
       {children}
     </a>
@@ -23,28 +23,26 @@ function ExternalLink({
 }
 
 /**
- * Pied de page : navigation, crédits des données (attribution TMDB
- * obligatoire + JustWatch pour les offres de streaming) et copyright.
+ * Pied de page : marque + navigation, mentions des données
+ * (attribution TMDB obligatoire, offres JustWatch), puis barre de bas
+ * de page avec copyright à gauche et crédit TMDB à droite.
  */
 export function Footer() {
   return (
     <footer className="border-border border-t">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-          {/* Marque */}
+        {/* Bande principale : marque + navigation */}
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-display text-lg font-bold tracking-tight">
               Moovy
             </p>
-            <p className="text-muted mt-2 max-w-xs text-sm">
-              Tendances, fiches détaillées et favoris — votre escale cinéma.
+            <p className="text-muted mt-1 text-sm">
+              Votre escale cinéma : tendances, fiches détaillées et favoris.
             </p>
           </div>
-
-          {/* Navigation */}
           <nav aria-label="Pied de page">
-            <p className="text-foreground text-sm font-semibold">Navigation</p>
-            <ul className="mt-3 space-y-1">
+            <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
               {LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -57,36 +55,27 @@ export function Footer() {
               ))}
             </ul>
           </nav>
-
-          {/* Données et crédits */}
-          <div>
-            <p className="text-foreground text-sm font-semibold">
-              Données &amp; crédits
-            </p>
-            <p className="text-muted mt-3 text-xs leading-relaxed">
-              Ce produit utilise l&apos;API{" "}
-              <ExternalLink href="https://www.themoviedb.org/">
-                TMDB
-              </ExternalLink>{" "}
-              mais n&apos;est pas approuvé ni certifié par TMDB.
-            </p>
-            <p className="text-muted mt-2 text-xs leading-relaxed">
-              Offres de streaming fournies par{" "}
-              <ExternalLink href="https://www.justwatch.com/">
-                JustWatch
-              </ExternalLink>
-              .
-            </p>
-          </div>
         </div>
 
-        {/* Bas de page */}
-        <div className="border-border mt-8 border-t pt-4">
+        {/* Mentions des données */}
+        <p className="text-muted mt-6 max-w-prose text-xs leading-relaxed">
+          Ce produit utilise l&apos;API{" "}
+          <ExternalLink href="https://www.themoviedb.org/">TMDB</ExternalLink>{" "}
+          mais n&apos;est pas approuvé ni certifié par TMDB. Offres de streaming
+          fournies par{" "}
+          <ExternalLink href="https://www.justwatch.com/">
+            JustWatch
+          </ExternalLink>
+          .
+        </p>
+
+        {/* Barre de bas de page */}
+        <div className="border-border mt-6 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">
           {/* Année figée : `new Date()` est une valeur instable au prerender. */}
-          <p className="text-muted text-xs">
-            © 2026 Moovy — projet de portfolio. Toutes les données
-            cinématographiques proviennent de TMDB.
-          </p>
+          <p className="text-muted text-xs">© Moovy - 2026. build by Mooktar</p>
+          <ExternalLink href="https://www.themoviedb.org/">
+            <span className="text-muted text-xs">Crédit TMDB</span>
+          </ExternalLink>
         </div>
       </div>
     </footer>
