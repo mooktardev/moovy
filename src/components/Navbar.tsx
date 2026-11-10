@@ -3,11 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const LINKS = [
-  { href: "/", label: "Accueil" },
-  { href: "/films", label: "Films" },
-  { href: "/series", label: "Séries" },
-];
+import { LINKS } from "@/lib/links";
 
 /** Lien actif en text-primary (guide de style §6). */
 function NavLink({ href, label }: { href: string; label: string }) {

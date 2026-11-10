@@ -1,0 +1,61 @@
+import Image from "next/image";
+import Link from "next/link";
+
+import { formatYear } from "@/lib/format";
+import { mediaDate, mediaTitle, tmdbImage } from "@/lib/tmdb";
+import { RatingBadge } from "@/components/RatingBadge";
+import type { MediaItem } from "@/types/tmdb";
+
+interface MovieCardProps {
+  item: MediaItem;
+  kind: "movie" | "tv";
+}
+
+/** Carte média : affiche 2:3, note en surimpression, titre et année — guide de style §6. */
+export function MovieCard({ item, kind }: MovieCardProps) {
+  const title = mediaTitle(item);
+  const poster = tmdbImage(item.poster_path, "w342");
+  const year = formatYear(mediaDate(item));
+
+  return (
+    <Link
+      href={`/${kind}/${item.id}`}
+      className="group rounded-card focus-visible:ring-primary block focus-visible:ring-2 focus-visible:outline-none"
+    >
+      <div className="rounded-card bg-surface-2 group-focus-visible:ring-primary/60 group-hover:ring-primary/60 relative aspect-[2/3] overflow-hidden transition duration-200 ease-out group-hover:ring-2 group-focus-visible:ring-2 motion-reduce:transition-none">
+        {poster ? (
+          <Image
+            src={poster}
+            alt={`Affiche de ${title}`}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+            className="object-cover transition-transform duration-200 ease-out group-hover:scale-105 motion-reduce:transform-none"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="text-muted size-10"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 4.5A1.5 1.5 0 015.5 3h13A1.5 1.5 0 0120 4.5v15a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 19.5v-15zM4 8h16M8 3v5M16 3v5"
+              />
+            </svg>
+          </div>
+        )}
+        <div className="absolute top-2 left-2">
+          <RatingBadge vote={item.vote_average} />
+        </div>
+      </div>
+
+      <h3 className="mt-2 line-clamp-2 text-sm font-medium">{title}</h3>
+      {year && <p className="text-muted text-xs">{year}</p>}
+    </Link>
+  );
+}

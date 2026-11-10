@@ -44,7 +44,7 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 - [x] Appliquer les tokens du [guide de style](STYLE_GUIDE.md) dans `globals.css` (`@theme inline`) : couleurs, polices **Outfit + Inter** via `next/font`, rayon `rounded-card`
 - [x] Configurer ESLint + Prettier (script `npm run format`)
 - [ ] (Optionnel) `husky` + `lint-staged` pour le lint au commit
-- [x] Variables d'environnement : `TMDB_API_KEY` / `TMDB_ACCESS_TOKEN` dans `.env.local` + `.env.example` documenté *(clés à renseigner)*
+- [x] Variables d'environnement : `TMDB_API_KEY` / `TMDB_ACCESS_TOKEN` dans `.env.local` + `.env.example` documenté _(clés à renseigner)_
 - [x] Créer le **client API TMDB** : `src/lib/tmdb.ts` (auth v4 avec repli v3, langue `fr-FR`, cache 1 h, gestion d'erreurs)
 - [x] Définir les **types TypeScript** des réponses TMDB : `src/types/tmdb.ts`
 - [ ] Structurer les dossiers :
@@ -67,27 +67,27 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 
 **Objectif :** le cœur de l'application.
 
-### 2.1 Page d'accueil
+### 2.1 Page d'accueil ✅
 
-- [ ] Section **héros** : film/série en tendance avec backdrop + titre + accroche
-- [ ] Carrousels horizontaux : tendances, films populaires, mieux notés, séries populaires
-- [ ] Composant `MovieCard` (affiche `aspect-[2/3]`, titre, `RatingBadge`, bouton favori) et `RatingBadge` — cf. [guide de style §6](STYLE_GUIDE.md#6-composants)
-- [ ] États de chargement : skeletons animés avec `loading.tsx` / `Suspense`
+- [x] Section **héros** : média n°1 des tendances avec backdrop + titre + accroche
+- [x] Carrousels horizontaux : films populaires, mieux notés, séries populaires
+- [x] Composant `MovieCard` (affiche `aspect-[2/3]`, titre, `RatingBadge`) et `RatingBadge` — cf. [guide de style §6](STYLE_GUIDE.md#6-composants)
+- [x] États de chargement : skeletons animés via `Suspense` (fiches détaillées, shell prerenderé)
 
 ### 2.2 Catalogue / Découverte
 
-- [ ] Page Films et page Séries avec **pagination** ou scroll infini
+- [ ] Page Films et page Séries avec **pagination** ou scroll infini *(v1 livrée : page 1 des populaires)*
 - [ ] Filtres : genre, année, tri (popularité, note, date)
-- [ ] Grille responsive adaptée aux cartes
+- [x] Grille responsive adaptée aux cartes
 
-### 2.3 Page détail film / série
+### 2.3 Page détail film / série ✅
 
-- [ ] Bannière backdrop + affiche + méta-infos (durée, genres, note, slogan)
-- [ ] Synopsis et informations complémentaires
-- [ ] Section **casting** principal (photos rondes, scroll horizontal)
-- [ ] Bande-annonce intégrée (YouTube via `/videos`)
-- [ ] Recommandations / similaires
-- [ ] Routes dynamiques : `/movie/[id]`, `/tv/[id]` avec métadonnées dynamiques (`generateMetadata`)
+- [x] Bannière backdrop + affiche + méta-infos (durée, genres, note, slogan)
+- [x] Synopsis et informations complémentaires
+- [x] Section **casting** principal (scroll horizontal)
+- [x] Bande-annonce YouTube via `/videos` (lien externe pour l'instant)
+- [x] Recommandations / similaires
+- [x] Routes dynamiques : `/movie/[id]`, `/tv/[id]` avec métadonnées dynamiques (`generateMetadata`)
 
 ### 2.4 Recherche
 
