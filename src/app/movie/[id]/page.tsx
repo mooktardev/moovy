@@ -43,7 +43,6 @@ async function MovieContent({ params }: { params: Promise<{ id: string }> }) {
     (video) => video.site === "YouTube" && video.type === "Trailer",
   );
   const metaLine = [
-    formatYear(movie.release_date),
     formatRuntime(movie.runtime),
     movie.genres.map((genre) => genre.name).join(", "),
   ]
@@ -67,6 +66,7 @@ async function MovieContent({ params }: { params: Promise<{ id: string }> }) {
       similar={movie.similar?.results ?? []}
       similarKind="movie"
       media={movie}
+      providers={movie["watch/providers"]?.results}
     />
   );
 }

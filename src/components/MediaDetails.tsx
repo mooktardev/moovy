@@ -7,7 +7,13 @@ import { MediaRail } from "@/components/MediaRail";
 import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import { RatingBadge } from "@/components/RatingBadge";
 import { WatchlistButton } from "@/components/WatchlistButton";
-import type { CastMember, MediaItem, MediaKind } from "@/types/tmdb";
+import { WatchProviders } from "@/components/WatchProviders";
+import type {
+  CastMember,
+  MediaItem,
+  MediaKind,
+  WatchProviders as WatchProvidersData,
+} from "@/types/tmdb";
 
 interface MediaDetailsProps {
   title: string;
@@ -25,6 +31,8 @@ interface MediaDetailsProps {
   similarKind: MediaKind;
   /** Données pour le bouton « Ajouter à ma liste ». */
   media: MediaItem;
+  /** Offres de streaming par pays (optionnel). */
+  providers?: Record<string, WatchProvidersData | undefined>;
 }
 
 /** Fiche détaillée commune aux films et aux séries. */
@@ -42,6 +50,7 @@ export function MediaDetails({
   similar,
   similarKind,
   media,
+  providers,
 }: MediaDetailsProps) {
   const watchlistItem: WatchlistItem = toWatchlistItem(media, similarKind);
   return (
@@ -151,6 +160,9 @@ export function MediaDetails({
           </ul>
         </section>
       )}
+
+      {/* Où regarder */}
+      {providers && <WatchProviders providers={providers} />}
 
       {/* Recommandations */}
       {similar.length > 0 && (

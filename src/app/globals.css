@@ -2,10 +2,11 @@
 
 /*
  * Tokens du guide de style (STYLE_GUIDE.md §2) — thème sombre par défaut.
- * Déclarés sur :root pour préparer le thème clair : il suffira de
- * redéfinir ces variables sous une classe (ex. `html.light`).
+ * Le thème clair redéfinit uniquement les 6 couleurs neutres sous `.light`
+ * (accent, note et erreur restent identiques) — guide de style §2.
  */
 :root {
+  color-scheme: dark;
   --background: #0b0b0f;
   --surface: #15151c;
   --surface-2: #1f1f29;
@@ -15,6 +16,16 @@
   --primary: #e11d48;
   --rating: #f59e0b;
   --danger: #ef4444;
+}
+
+.light {
+  color-scheme: light;
+  --background: #ffffff;
+  --surface: #f4f4f5;
+  --surface-2: #e4e4e7;
+  --border: #d4d4d8;
+  --foreground: #18181b;
+  --muted: #52525b;
 }
 
 @theme inline {

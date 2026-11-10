@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { LINKS } from "@/lib/links";
 import { SearchBar } from "@/components/SearchBar";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 /** Lien actif en text-primary (guide de style §6). */
 function NavLink({ href, label }: { href: string; label: string }) {
@@ -41,6 +42,7 @@ export function Navbar() {
           {LINKS.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
+          <ThemeToggle />
         </div>
       </nav>
     </header>

@@ -26,13 +26,21 @@ export const metadata: Metadata = {
     "Découvrez les films et séries du moment : tendances, fiches détaillées, casting et bandes-annonces.",
 };
 
+/**
+ * Applique le thème choisi avant la première peinture (pas de flash sombre
+ * pour les utilisateurs du thème clair). Le thème sombre est le défaut.
+ */
+const THEME_SCRIPT = `(function(){try{if(localStorage.getItem("moovy:theme")==="light")document.documentElement.classList.add("light")}catch(e){}})()`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
       className={`${inter.variable} ${outfit.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col font-sans">
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <WatchlistProvider>
           {/*
            * usePathname() n'est connu qu'à l'exécution sur les routes dynamiques :

@@ -45,7 +45,6 @@ async function TvContent({ params }: { params: Promise<{ id: string }> }) {
   const seasons = show.number_of_seasons;
   const episodes = show.number_of_episodes;
   const metaLine = [
-    formatYear(show.first_air_date),
     seasons > 0 ? `${seasons} saison${seasons > 1 ? "s" : ""}` : null,
     episodes > 0 ? `${episodes} épisodes` : null,
     show.episode_run_time?.[0] ? formatRuntime(show.episode_run_time[0]) : null,
@@ -71,6 +70,7 @@ async function TvContent({ params }: { params: Promise<{ id: string }> }) {
       similar={show.similar?.results ?? []}
       similarKind="tv"
       media={show}
+      providers={show["watch/providers"]?.results}
     />
   );
 }

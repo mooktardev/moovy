@@ -107,9 +107,9 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 - [x] **Ma liste / Watchlist** : ajout de favoris ✅ _(bouton cœur sur les cartes et les fiches, `localStorage` + contexte React, synchro inter-onglets)_
   - Version simple : `localStorage` + contexte React — **livrée**
   - Version avancée : authentification (NextAuth / Auth.js) + base de données (Supabase, Prisma…) — optionnelle
-- [ ] Mode **sombre / clair** (souvent natif avec un bon design TMDB)
+- [x] Mode **sombre / clair** ✅ _(tokens neutres redéfinis sous `.light`, bascule dans la navbar, choix persisté, script anti-flash)_
 - [x] Page « Ma liste » (`/ma-liste`) avec gestion : retrait individuel, tout retirer, état vide avec action
-- [ ] Où regarder (streaming) via `/watch/providers`
+- [x] Où regarder (streaming) via `/watch/providers` ✅ _(logos d'offres FR par groupe abonnement/location/achat + lien JustWatch, attribution TMDB)_
 - [ ] Notes détaillées : barre de progression colorée (comme sur TMDB)
 - [ ] Micro-interactions : transitions, hover sur les cartes, animations `framer-motion` (avec mesure)
 - [ ] Page « Acteurs populaires » et page détail acteur (`/person/[id]`)
