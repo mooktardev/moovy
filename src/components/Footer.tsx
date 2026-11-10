@@ -23,9 +23,8 @@ function ExternalLink({
 }
 
 /**
- * Pied de page : marque + navigation, mentions des données
- * (attribution TMDB obligatoire, offres JustWatch), puis barre de bas
- * de page avec copyright à gauche et crédit TMDB à droite.
+ * Pied de page : marque + navigation, puis barre de bas de page avec
+ * copyright à gauche et crédit TMDB (lien themoviedb.org) à droite.
  */
 export function Footer() {
   return (
@@ -56,18 +55,6 @@ export function Footer() {
             </ul>
           </nav>
         </div>
-
-        {/* Mentions des données */}
-        <p className="text-muted mt-6 max-w-prose text-xs leading-relaxed">
-          Ce produit utilise l&apos;API{" "}
-          <ExternalLink href="https://www.themoviedb.org/">TMDB</ExternalLink>{" "}
-          mais n&apos;est pas approuvé ni certifié par TMDB. Offres de streaming
-          fournies par{" "}
-          <ExternalLink href="https://www.justwatch.com/">
-            JustWatch
-          </ExternalLink>
-          .
-        </p>
 
         {/* Barre de bas de page */}
         <div className="border-border mt-6 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">

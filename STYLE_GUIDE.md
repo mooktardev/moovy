@@ -154,4 +154,4 @@ Règles : un seul `h1` par page, `max-w-prose` pour les synopsis, titres longs t
 - Interface en français, ton direct et simple (« Rechercher un film », pas « Effectuer une recherche »).
 - Notes affichées `7,8` (virgule), durées `2 h 15`, dates `12 mars 2024` via `Intl.DateTimeFormat('fr-FR')`.
 - Composants en `PascalCase`, fichiers identiques (`MovieCard.tsx`), classes Tailwind triées (`prettier-plugin-tailwindcss`).
-- Footer : logo TMDB et phrase d'attribution obligatoires.
+- Footer : crédit TMDB compact en bas de page (lien vers themoviedb.org).
