@@ -56,7 +56,7 @@ export function MediaDetails({
   return (
     <article className="pb-12">
       {/* Bandeau backdrop */}
-      <div className="relative h-[32vh] max-h-[400px] min-h-[220px]">
+      <div className="relative h-[42vh] max-h-[560px] min-h-[280px]">
         {backdrop ? (
           <Image
             src={backdrop}
