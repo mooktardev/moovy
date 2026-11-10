@@ -36,7 +36,8 @@ export function Navbar() {
           Moovy
         </Link>
 
-        <SearchBar className="order-3 w-full sm:order-none sm:w-48 lg:w-64" />
+        {/* Recherche large et centrale entre logo et menu */}
+        <SearchBar className="order-3 w-full sm:order-none sm:mx-6 sm:max-w-xl sm:min-w-0 sm:flex-1" />
 
         <div className="flex items-center gap-1 sm:gap-2">
           {LINKS.map((link) => (

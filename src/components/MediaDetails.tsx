@@ -56,7 +56,7 @@ export function MediaDetails({
   return (
     <article className="pb-12">
       {/* Bandeau backdrop */}
-      <div className="relative h-[40vh] max-h-[480px] min-h-[280px]">
+      <div className="relative h-[32vh] max-h-[400px] min-h-[220px]">
         {backdrop ? (
           <Image
             src={backdrop}
@@ -72,9 +72,9 @@ export function MediaDetails({
         <div className="from-background via-background/50 absolute inset-0 bg-gradient-to-t to-transparent" />
       </div>
 
-      {/* En-tête : affiche + infos */}
-      <div className="mx-auto -mt-28 max-w-7xl px-4 md:px-6">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end">
+      {/* En-tête : affiche + infos, sous le bandeau (titre toujours lisible) */}
+      <div className="mx-auto max-w-7xl px-4 pt-6 md:px-6">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
           <div className="rounded-card bg-surface-2 ring-border relative aspect-[2/3] w-36 shrink-0 overflow-hidden ring-1 sm:w-44">
             {poster ? (
               <Image
