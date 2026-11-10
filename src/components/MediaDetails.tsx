@@ -55,7 +55,7 @@ export function MediaDetails({
   const watchlistItem: WatchlistItem = toWatchlistItem(media, similarKind);
   return (
     <article className="pb-12">
-      {/* Hero : couverture entièrement visible, contenu superposé sur dégradé */}
+      {/* Hero : couverture étendue, contenu superposé sur dégradé */}
       <div className="from-surface-2 to-background relative h-[42vh] max-h-[560px] min-h-[280px] overflow-hidden bg-gradient-to-b">
         {backdrop ? (
           <Image
@@ -64,7 +64,7 @@ export function MediaDetails({
             fill
             priority
             sizes="100vw"
-            className="object-contain"
+            className="object-cover"
           />
         ) : (
           <div className="bg-surface-2 h-full" />
