@@ -56,7 +56,7 @@ export function MediaDetails({
   return (
     <article className="pb-12">
       {/* Hero : couverture étendue, contenu superposé sur dégradé */}
-      <div className="from-surface-2 to-background relative h-[42vh] max-h-[560px] min-h-[280px] overflow-hidden bg-gradient-to-b">
+      <div className="from-surface-2 to-background relative h-[50vh] max-h-[640px] min-h-[320px] overflow-hidden bg-gradient-to-b">
         {backdrop ? (
           <Image
             src={backdrop}
