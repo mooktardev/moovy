@@ -74,10 +74,10 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 - [x] Composant `MovieCard` (affiche `aspect-[2/3]`, titre, `RatingBadge`) et `RatingBadge` — cf. [guide de style §6](STYLE_GUIDE.md#6-composants)
 - [x] États de chargement : skeletons animés via `Suspense` (fiches détaillées, shell prerenderé)
 
-### 2.2 Catalogue / Découverte
+### 2.2 Catalogue / Découverte ✅
 
-- [ ] Page Films et page Séries avec **pagination** ou scroll infini _(v1 livrée : page 1 des populaires)_
-- [ ] Filtres : genre, année, tri (popularité, note, date)
+- [x] Page Films et page Séries avec **pagination** (liens `Link` indexables, filtres conservés)
+- [x] Filtres : genre, année, tri (popularité, mieux notés, plus récents) — via `/discover`, l'URL est la source de vérité
 - [x] Grille responsive adaptée aux cartes
 
 ### 2.3 Page détail film / série ✅

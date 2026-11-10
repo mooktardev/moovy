@@ -9,6 +9,9 @@ export type MediaKind = "movie" | "tv";
 /** `media_type` complet renvoyé par `/search/multi`, qui inclut les personnes. */
 export type SearchMediaType = MediaKind | "person";
 
+/** Tri des catalogues (filtres /films et /series). */
+export type SortOption = "popularity" | "rating" | "newest";
+
 export interface PaginatedResponse<T> {
   page: number;
   results: T[];

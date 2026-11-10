@@ -6,6 +6,7 @@ import type {
   MediaKind,
   MovieDetails,
   PaginatedResponse,
+  SortOption,
   TvDetails,
 } from "@/types/tmdb";
 
@@ -138,6 +139,53 @@ export async function getTvDetails(id: number): Promise<TvDetails> {
 export async function getGenres(kind: MediaKind): Promise<Genre[]> {
   const data = await tmdbFetch<{ genres: Genre[] }>(`/genre/${kind}/list`);
   return data.genres;
+}
+
+/* ------------------------------------------------------------------ */
+/* Catalogues filtrables (discover)                                    */
+/* ------------------------------------------------------------------ */
+
+const MOVIE_SORTS: Record<SortOption, string> = {
+  popularity: "popularity.desc",
+  rating: "vote_average.desc",
+  newest: "primary_release_date.desc",
+};
+
+const TV_SORTS: Record<SortOption, string> = {
+  popularity: "popularity.desc",
+  rating: "vote_average.desc",
+  newest: "first_air_date.desc",
+};
+
+export interface DiscoverParams {
+  page?: number;
+  genreId?: number | null;
+  year?: number | null;
+  sort?: SortOption;
+}
+
+async function discover(
+  kind: MediaKind,
+  { page = 1, genreId, year, sort = "popularity" }: DiscoverParams,
+): Promise<PaginatedResponse<MediaItem>> {
+  return tmdbFetch(kind === "tv" ? "/discover/tv" : "/discover/movie", {
+    page,
+    sort_by: kind === "tv" ? TV_SORTS[sort] : MOVIE_SORTS[sort],
+    with_genres: genreId ?? undefined,
+    // Le tri par note exige un minimum de votes, sinon les titres obscurs dominent.
+    "vote_count.gte": sort === "rating" ? 300 : undefined,
+    // Champs année distincts selon le type de média.
+    primary_release_year: kind === "movie" ? (year ?? undefined) : undefined,
+    first_air_date_year: kind === "tv" ? (year ?? undefined) : undefined,
+  });
+}
+
+export function discoverMovies(params: DiscoverParams = {}) {
+  return discover("movie", params);
+}
+
+export function discoverTv(params: DiscoverParams = {}) {
+  return discover("tv", params);
 }
 
 /* ------------------------------------------------------------------ */
