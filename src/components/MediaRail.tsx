@@ -1,6 +1,7 @@
 import type { MediaKind, MediaItem } from "@/types/tmdb";
 import { mediaKind } from "@/lib/tmdb";
 import { MovieCard } from "@/components/MovieCard";
+import { Reveal } from "@/components/Reveal";
 
 interface MediaRailProps {
   title: string;
@@ -13,17 +14,19 @@ export function MediaRail({ title, items, kind = "movie" }: MediaRailProps) {
   if (items.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 md:px-6">
-      <h2 className="font-display text-xl font-semibold md:text-2xl">
-        {title}
-      </h2>
-      <ul className="mt-4 flex scrollbar-none gap-4 overflow-x-auto pb-2">
-        {items.map((item) => (
-          <li key={item.id} className="w-40 shrink-0 sm:w-44">
-            <MovieCard item={item} kind={mediaKind(item, kind)} />
-          </li>
-        ))}
-      </ul>
-    </section>
+    <Reveal>
+      <section className="mx-auto max-w-7xl px-4 md:px-6">
+        <h2 className="font-display text-xl font-semibold md:text-2xl">
+          {title}
+        </h2>
+        <ul className="mt-4 flex scrollbar-none gap-4 overflow-x-auto pb-2">
+          {items.map((item) => (
+            <li key={item.id} className="w-40 shrink-0 sm:w-44">
+              <MovieCard item={item} kind={mediaKind(item, kind)} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </Reveal>
   );
 }

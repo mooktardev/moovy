@@ -8,6 +8,7 @@ import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import { RatingRing } from "@/components/RatingRing";
 import { WatchlistButton } from "@/components/WatchlistButton";
 import { WatchProviders, hasWatchProviders } from "@/components/WatchProviders";
+import { Reveal } from "@/components/Reveal";
 import type {
   CastMember,
   MediaItem,
@@ -135,112 +136,118 @@ export function MediaDetails({
 
       {/* Synopsis + bande-annonce intégrée (YouTube) */}
       {(overview || trailerKey) && (
-        <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
-            {overview && (
-              <div>
-                <h2 className="font-display text-xl font-semibold md:text-2xl">
-                  Synopsis
-                </h2>
-                <p className="mt-3 max-w-prose leading-relaxed">{overview}</p>
-              </div>
-            )}
-            {trailerKey && (
-              <div>
-                <h2 className="font-display text-xl font-semibold md:text-2xl">
-                  Bande-annonce
-                </h2>
-                <div className="rounded-card bg-surface-2 ring-border mt-3 aspect-video overflow-hidden ring-1">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${trailerKey}`}
-                    title={`Bande-annonce de ${title}`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    className="h-full w-full"
-                  />
+        <Reveal>
+          <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
+            <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
+              {overview && (
+                <div>
+                  <h2 className="font-display text-xl font-semibold md:text-2xl">
+                    Synopsis
+                  </h2>
+                  <p className="mt-3 max-w-prose leading-relaxed">{overview}</p>
                 </div>
-              </div>
-            )}
-          </div>
-        </section>
+              )}
+              {trailerKey && (
+                <div>
+                  <h2 className="font-display text-xl font-semibold md:text-2xl">
+                    Bande-annonce
+                  </h2>
+                  <div className="rounded-card bg-surface-2 ring-border mt-3 aspect-video overflow-hidden ring-1">
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${trailerKey}`}
+                      title={`Bande-annonce de ${title}`}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      className="h-full w-full"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+        </Reveal>
       )}
 
       {/* Casting */}
       {cast.length > 0 && (
-        <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            Casting principal
-          </h2>
-          <ul className="mt-4 flex scrollbar-none gap-4 overflow-x-auto pb-2">
-            {cast.map((member) => {
-              const profile = tmdbImage(member.profile_path, "w185");
-              return (
-                <li key={member.id} className="w-28 shrink-0">
-                  <Link
-                    href={`/person/${member.id}`}
-                    className="group rounded-card focus-visible:ring-primary block focus-visible:ring-2 focus-visible:outline-none"
-                  >
-                    <div className="rounded-card bg-surface-2 group-focus-visible:ring-primary/60 group-hover:ring-primary/60 relative aspect-[2/3] overflow-hidden transition duration-200 ease-out group-hover:ring-2 group-focus-visible:ring-2 motion-reduce:transition-none">
-                      {profile && (
-                        <Image
-                          src={profile}
-                          alt={`Photo de ${member.name}`}
-                          fill
-                          sizes="112px"
-                          className="object-cover"
-                        />
-                      )}
-                    </div>
-                    <p className="mt-2 line-clamp-2 text-sm font-medium">
-                      {member.name}
-                    </p>
-                    <p className="text-muted line-clamp-1 text-xs">
-                      {member.character}
-                    </p>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
+        <Reveal>
+          <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
+            <h2 className="font-display text-xl font-semibold md:text-2xl">
+              Casting principal
+            </h2>
+            <ul className="mt-4 flex scrollbar-none gap-4 overflow-x-auto pb-2">
+              {cast.map((member) => {
+                const profile = tmdbImage(member.profile_path, "w185");
+                return (
+                  <li key={member.id} className="w-28 shrink-0">
+                    <Link
+                      href={`/person/${member.id}`}
+                      className="group rounded-card focus-visible:ring-primary block focus-visible:ring-2 focus-visible:outline-none"
+                    >
+                      <div className="rounded-card bg-surface-2 group-focus-visible:ring-primary/60 group-hover:ring-primary/60 relative aspect-[2/3] overflow-hidden transition duration-200 ease-out group-hover:ring-2 group-focus-visible:ring-2 motion-reduce:transition-none">
+                        {profile && (
+                          <Image
+                            src={profile}
+                            alt={`Photo de ${member.name}`}
+                            fill
+                            sizes="112px"
+                            className="object-cover"
+                          />
+                        )}
+                      </div>
+                      <p className="mt-2 line-clamp-2 text-sm font-medium">
+                        {member.name}
+                      </p>
+                      <p className="text-muted line-clamp-1 text-xs">
+                        {member.character}
+                      </p>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        </Reveal>
       )}
 
       {/* Critiques (gauche) + Où regarder (droite) */}
       {(recentReviews.length > 0 || hasProviders) && (
-        <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
-          <div
-            className={
-              recentReviews.length > 0 && hasProviders
-                ? "grid gap-8 lg:grid-cols-2 lg:gap-10"
-                : ""
-            }
-          >
-            {recentReviews.length > 0 && (
-              <div>
-                <h2 className="font-display text-xl font-semibold md:text-2xl">
-                  Critiques
-                </h2>
-                <ul className="mt-3 space-y-4">
-                  {recentReviews.map((review) => (
-                    <li key={review.id}>
-                      <ReviewCard review={review} />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {hasProviders && (
-              <div>
-                <h2 className="font-display text-xl font-semibold md:text-2xl">
-                  Où regarder
-                </h2>
-                <WatchProviders providers={providers} />
-              </div>
-            )}
-          </div>
-        </section>
+        <Reveal>
+          <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
+            <div
+              className={
+                recentReviews.length > 0 && hasProviders
+                  ? "grid gap-8 lg:grid-cols-2 lg:gap-10"
+                  : ""
+              }
+            >
+              {recentReviews.length > 0 && (
+                <div>
+                  <h2 className="font-display text-xl font-semibold md:text-2xl">
+                    Critiques
+                  </h2>
+                  <ul className="mt-3 space-y-4">
+                    {recentReviews.map((review) => (
+                      <li key={review.id}>
+                        <ReviewCard review={review} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {hasProviders && (
+                <div>
+                  <h2 className="font-display text-xl font-semibold md:text-2xl">
+                    Où regarder
+                  </h2>
+                  <WatchProviders providers={providers} />
+                </div>
+              )}
+            </div>
+          </section>
+        </Reveal>
       )}
 
       {/* Recommandations */}

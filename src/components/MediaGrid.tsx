@@ -1,6 +1,7 @@
 import type { MediaItem, MediaKind } from "@/types/tmdb";
 import { mediaKind } from "@/lib/tmdb";
 import { MovieCard } from "@/components/MovieCard";
+import { Reveal } from "@/components/Reveal";
 
 /** Grille d'affiches responsive — guide de style §4. */
 export function MediaGrid({
@@ -15,12 +16,14 @@ export function MediaGrid({
   }
 
   return (
-    <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-      {items.map((item) => (
-        <li key={item.id}>
-          <MovieCard item={item} kind={mediaKind(item, kind)} />
-        </li>
-      ))}
-    </ul>
+    <Reveal>
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        {items.map((item) => (
+          <li key={item.id}>
+            <MovieCard item={item} kind={mediaKind(item, kind)} />
+          </li>
+        ))}
+      </ul>
+    </Reveal>
   );
 }

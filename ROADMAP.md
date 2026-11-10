@@ -111,7 +111,7 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 - [x] Page « Ma liste » (`/ma-liste`) avec gestion : retrait individuel, tout retirer, état vide avec action
 - [x] Où regarder (streaming) via `/watch/providers` ✅ _(logos d'offres FR par groupe abonnement/location/achat + lien JustWatch, attribution TMDB)_
 - [x] Notes détaillées : barre de progression colorée (comme sur TMDB) ✅ _(anneau SVG `RatingRing` sur les fiches : arc rempli au pourcentage du score, vert/ambre/rouge selon la note, format « 8,4 / 10 »)_
-- [ ] Micro-interactions : transitions, hover sur les cartes, animations `framer-motion` (avec mesure)
+- [x] Micro-interactions : transitions, hover sur les cartes, animations `framer-motion` (avec mesure) ✅ _(fondu de navigation via `template.tsx`, apparitions au scroll `Reveal` (rails, grilles, sections de fiche), anneau de note animé ; Mesures : 52 fps au scroll, 0 long task, +46 Ko gzip ; `prefers-reduced-motion` respecté partout)_
 - [x] Page « Acteurs populaires » (`/acteurs`) et page détail acteur (`/person/[id]`) ✅ _(photo, biographie FR, naissance/décès/âge, filmographie dédoublonnée et triée ; casting cliquable depuis les fiches)_
 - [x] Gestion des erreurs : `error.tsx`, page `not-found.tsx` personnalisées ✅ _(404 « disparu du montage final » avec actions, erreur globale avec bouton Réessayer en `text-danger` — guide §8)_
 

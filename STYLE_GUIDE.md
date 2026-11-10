@@ -90,9 +90,10 @@ Règles : un seul `h1` par page, `max-w-prose` pour les synopsis, titres longs t
 - **Rayons** : `rounded-card` pour les cartes et images, `rounded-full` pour les badges et boutons ronds, `rounded-lg` pour les boutons et champs.
 - **Ombres** : quasi absentes en thème sombre ; les niveaux se distinguent par la surface et la bordure `border-border`.
 - **Transitions** : `transition duration-200 ease-out` partout.
-- **Survol des cartes** : `hover:scale-105` + `hover:ring-2 ring-primary/60`.
+- **Survol des cartes** : `hover:scale-105` + `hover:ring-2 ring-primary/60` (CSS pur).
 - **Skeletons** : `animate-pulse bg-surface-2 rounded-card`.
-- Prévoir `motion-reduce:` pour désactiver les animations si demandé.
+- **Micro-interactions Motion** : fondu de navigation (`template.tsx`), apparitions au scroll (`Reveal`, `once: true`, `opacity` + `transform` uniquement — GPU), anneau de note animé. Budget : aucune tâche principale > 50 ms, animations ≤ 400 ms.
+- Prévoir `motion-reduce:` (CSS) et `MotionConfig reducedMotion="user"` (Motion) pour désactiver les animations si demandé.
 
 ## 6. Composants
 
