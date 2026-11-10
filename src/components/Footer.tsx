@@ -61,7 +61,7 @@ export function Footer() {
           {/* Année figée : `new Date()` est une valeur instable au prerender. */}
           <p className="text-muted text-xs">© Moovy - 2026. build by Mooktar</p>
           <ExternalLink href="https://www.themoviedb.org/">
-            <span className="text-muted text-xs">Crédit TMDB</span>
+            <span className="text-muted text-xs">TheMovieDB</span>
           </ExternalLink>
         </div>
       </div>
