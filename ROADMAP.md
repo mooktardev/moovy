@@ -112,7 +112,7 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 - [x] Où regarder (streaming) via `/watch/providers` ✅ _(logos d'offres FR par groupe abonnement/location/achat + lien JustWatch, attribution TMDB)_
 - [x] Notes détaillées : barre de progression colorée (comme sur TMDB) ✅ _(anneau SVG `RatingRing` sur les fiches : arc rempli au pourcentage du score, vert/ambre/rouge selon la note, format « 8,4 / 10 »)_
 - [ ] Micro-interactions : transitions, hover sur les cartes, animations `framer-motion` (avec mesure)
-- [ ] Page « Acteurs populaires » et page détail acteur (`/person/[id]`)
+- [x] Page « Acteurs populaires » (`/acteurs`) et page détail acteur (`/person/[id]`) ✅ _(photo, biographie FR, naissance/décès/âge, filmographie dédoublonnée et triée ; casting cliquable depuis les fiches)_
 - [ ] Gestion des erreurs : `error.tsx`, page `not-found.tsx` personnalisées
 
 **Livrable :** l'app a une vraie personnalité et au moins une fonctionnalité mémorable.

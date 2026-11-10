@@ -137,23 +137,28 @@ export function MediaDetails({
               const profile = tmdbImage(member.profile_path, "w185");
               return (
                 <li key={member.id} className="w-28 shrink-0">
-                  <div className="rounded-card bg-surface-2 relative aspect-[2/3] overflow-hidden">
-                    {profile && (
-                      <Image
-                        src={profile}
-                        alt={`Photo de ${member.name}`}
-                        fill
-                        sizes="112px"
-                        className="object-cover"
-                      />
-                    )}
-                  </div>
-                  <p className="mt-2 line-clamp-2 text-sm font-medium">
-                    {member.name}
-                  </p>
-                  <p className="text-muted line-clamp-1 text-xs">
-                    {member.character}
-                  </p>
+                  <Link
+                    href={`/person/${member.id}`}
+                    className="group rounded-card focus-visible:ring-primary block focus-visible:ring-2 focus-visible:outline-none"
+                  >
+                    <div className="rounded-card bg-surface-2 group-focus-visible:ring-primary/60 group-hover:ring-primary/60 relative aspect-[2/3] overflow-hidden transition duration-200 ease-out group-hover:ring-2 group-focus-visible:ring-2 motion-reduce:transition-none">
+                      {profile && (
+                        <Image
+                          src={profile}
+                          alt={`Photo de ${member.name}`}
+                          fill
+                          sizes="112px"
+                          className="object-cover"
+                        />
+                      )}
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-sm font-medium">
+                      {member.name}
+                    </p>
+                    <p className="text-muted line-clamp-1 text-xs">
+                      {member.character}
+                    </p>
+                  </Link>
                 </li>
               );
             })}

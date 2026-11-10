@@ -116,3 +116,44 @@ export interface TvDetails extends AppendedDetails {
   status: string;
   genres: Genre[];
 }
+
+/* ------------------------------------------------------------------ */
+/* Personnes (acteurs, réalisateurs…)                                  */
+/* ------------------------------------------------------------------ */
+
+/** Personne d'une liste (`/person/popular`). */
+export interface PersonSummary {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  known_for_department: string | null;
+}
+
+/** Entrée de filmographie (`combined_credits`) : film ou série. */
+export interface PersonCredit {
+  id: number;
+  media_type: MediaKind;
+  /** Film (`title`) ou série (`name`). */
+  title?: string;
+  name?: string;
+  poster_path: string | null;
+  vote_average: number;
+  release_date?: string | null;
+  first_air_date?: string | null;
+  /** Personnage interprété (cast). */
+  character?: string | null;
+}
+
+export interface PersonDetails {
+  id: number;
+  name: string;
+  biography: string | null;
+  birthday: string | null;
+  deathday: string | null;
+  place_of_birth: string | null;
+  profile_path: string | null;
+  known_for_department: string | null;
+  combined_credits?: {
+    cast: PersonCredit[];
+  };
+}

@@ -6,6 +6,8 @@ import type {
   MediaKind,
   MovieDetails,
   PaginatedResponse,
+  PersonDetails,
+  PersonSummary,
   SortOption,
   TvDetails,
 } from "@/types/tmdb";
@@ -114,6 +116,22 @@ export async function getMovieDetails(id: number): Promise<MovieDetails> {
 
 export async function getTvDetails(id: number): Promise<TvDetails> {
   return tmdbFetch(`/tv/${id}`, { append_to_response: DETAILS_APPEND });
+}
+
+/* ------------------------------------------------------------------ */
+/* Personnes                                                           */
+/* ------------------------------------------------------------------ */
+
+export async function getPersonDetails(id: number): Promise<PersonDetails> {
+  return tmdbFetch(`/person/${id}`, {
+    append_to_response: "combined_credits",
+  });
+}
+
+export async function getPopularPeople(
+  page = 1,
+): Promise<PaginatedResponse<PersonSummary>> {
+  return tmdbFetch("/person/popular", { page });
 }
 
 /* ------------------------------------------------------------------ */

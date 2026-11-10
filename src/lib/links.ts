@@ -3,5 +3,6 @@ export const LINKS = [
   { href: "/", label: "Accueil" },
   { href: "/films", label: "Films" },
   { href: "/series", label: "Séries" },
+  { href: "/acteurs", label: "Acteurs" },
   { href: "/ma-liste", label: "Ma liste" },
 ];
