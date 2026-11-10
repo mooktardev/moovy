@@ -59,9 +59,7 @@ async function MovieContent({ params }: { params: Promise<{ id: string }> }) {
       year={formatYear(movie.release_date)}
       rating={movie.vote_average}
       metaLine={metaLine || null}
-      trailerUrl={
-        trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null
-      }
+      trailerKey={trailer?.key ?? null}
       cast={movie.credits?.cast?.slice(0, 12) ?? []}
       similar={movie.similar?.results ?? []}
       similarKind="movie"

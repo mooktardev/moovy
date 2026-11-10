@@ -25,7 +25,8 @@ interface MediaDetailsProps {
   rating: number;
   /** Ligne d'infos secondaires, ex. « 2024 • 2 h 15 • Action, Aventure ». */
   metaLine: string | null;
-  trailerUrl: string | null;
+  /** Clé YouTube de la bande-annonce (lecteur intégré + lien externe). */
+  trailerKey: string | null;
   cast: CastMember[];
   similar: MediaItem[];
   similarKind: MediaKind;
@@ -45,7 +46,7 @@ export function MediaDetails({
   year,
   rating,
   metaLine,
-  trailerUrl,
+  trailerKey,
   cast,
   similar,
   similarKind,
@@ -106,9 +107,9 @@ export function MediaDetails({
                   {metaLine && <span>{metaLine}</span>}
                 </div>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
-                  {trailerUrl && (
+                  {trailerKey && (
                     <Link
-                      href={trailerUrl}
+                      href={`https://www.youtube.com/watch?v=${trailerKey}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-primary hover:bg-primary/90 focus-visible:ring-primary inline-block rounded-lg px-5 py-2.5 font-medium text-white transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
@@ -124,13 +125,37 @@ export function MediaDetails({
         </div>
       </div>
 
-      {/* Synopsis */}
-      {overview && (
+      {/* Synopsis + bande-annonce intégrée (YouTube) */}
+      {(overview || trailerKey) && (
         <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
-          <h2 className="font-display text-xl font-semibold md:text-2xl">
-            Synopsis
-          </h2>
-          <p className="mt-3 max-w-prose leading-relaxed">{overview}</p>
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
+            {overview && (
+              <div>
+                <h2 className="font-display text-xl font-semibold md:text-2xl">
+                  Synopsis
+                </h2>
+                <p className="mt-3 max-w-prose leading-relaxed">{overview}</p>
+              </div>
+            )}
+            {trailerKey && (
+              <div>
+                <h2 className="font-display text-xl font-semibold md:text-2xl">
+                  Bande-annonce
+                </h2>
+                <div className="rounded-card bg-surface-2 ring-border mt-3 aspect-video overflow-hidden ring-1">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${trailerKey}`}
+                    title={`Bande-annonce de ${title}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    className="h-full w-full"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </section>
       )}
 

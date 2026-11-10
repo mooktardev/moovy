@@ -63,9 +63,7 @@ async function TvContent({ params }: { params: Promise<{ id: string }> }) {
       year={formatYear(show.first_air_date)}
       rating={show.vote_average}
       metaLine={metaLine || null}
-      trailerUrl={
-        trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null
-      }
+      trailerKey={trailer?.key ?? null}
       cast={show.credits?.cast?.slice(0, 12) ?? []}
       similar={show.similar?.results ?? []}
       similarKind="tv"
