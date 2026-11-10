@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { formatYear } from "@/lib/format";
-import { mediaDate, mediaTitle, tmdbImage } from "@/lib/tmdb";
+import { mediaDate, mediaTitle } from "@/lib/tmdb";
+import { tmdbImage } from "@/lib/images";
 import { RatingBadge } from "@/components/RatingBadge";
 import type { MediaItem } from "@/types/tmdb";
 

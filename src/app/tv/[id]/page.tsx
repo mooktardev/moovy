@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { formatRuntime, formatYear } from "@/lib/format";
-import { getTvDetails, tmdbImage } from "@/lib/tmdb";
+import { getTvDetails } from "@/lib/tmdb";
+import { tmdbImage } from "@/lib/images";
 import { DetailsSkeleton } from "@/components/DetailsSkeleton";
 import { MediaDetails } from "@/components/MediaDetails";
 
@@ -69,6 +70,7 @@ async function TvContent({ params }: { params: Promise<{ id: string }> }) {
       cast={show.credits?.cast?.slice(0, 12) ?? []}
       similar={show.similar?.results ?? []}
       similarKind="tv"
+      media={show}
     />
   );
 }

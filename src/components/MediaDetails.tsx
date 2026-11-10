@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { tmdbImage } from "@/lib/tmdb";
+import { tmdbImage } from "@/lib/images";
+import { toWatchlistItem, type WatchlistItem } from "@/lib/watchlist";
 import { MediaRail } from "@/components/MediaRail";
+import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import { RatingBadge } from "@/components/RatingBadge";
+import { WatchlistButton } from "@/components/WatchlistButton";
 import type { CastMember, MediaItem, MediaKind } from "@/types/tmdb";
 
 interface MediaDetailsProps {
@@ -20,6 +23,8 @@ interface MediaDetailsProps {
   cast: CastMember[];
   similar: MediaItem[];
   similarKind: MediaKind;
+  /** Données pour le bouton « Ajouter à ma liste ». */
+  media: MediaItem;
 }
 
 /** Fiche détaillée commune aux films et aux séries. */
@@ -36,7 +41,9 @@ export function MediaDetails({
   cast,
   similar,
   similarKind,
+  media,
 }: MediaDetailsProps) {
+  const watchlistItem: WatchlistItem = toWatchlistItem(media, similarKind);
   return (
     <article className="pb-12">
       {/* Bandeau backdrop */}
@@ -69,22 +76,7 @@ export function MediaDetails({
                 className="object-cover"
               />
             ) : (
-              <div className="flex h-full items-center justify-center">
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="text-muted size-10"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 4.5A1.5 1.5 0 015.5 3h13A1.5 1.5 0 0120 4.5v15a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 19.5v-15zM4 8h16M8 3v5M16 3v5"
-                  />
-                </svg>
-              </div>
+              <PosterPlaceholder />
             )}
           </div>
 
@@ -98,16 +90,19 @@ export function MediaDetails({
               <RatingBadge vote={rating} />
               {metaLine && <span>{metaLine}</span>}
             </div>
-            {trailerUrl && (
-              <Link
-                href={trailerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-primary hover:bg-primary/90 focus-visible:ring-primary mt-5 inline-block rounded-lg px-5 py-2.5 font-medium text-white transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
-              >
-                Bande-annonce
-              </Link>
-            )}
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              {trailerUrl && (
+                <Link
+                  href={trailerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-primary hover:bg-primary/90 focus-visible:ring-primary inline-block rounded-lg px-5 py-2.5 font-medium text-white transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
+                >
+                  Bande-annonce
+                </Link>
+              )}
+              <WatchlistButton item={watchlistItem} variant="inline" />
+            </div>
           </div>
         </div>
       </div>

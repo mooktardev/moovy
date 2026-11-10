@@ -104,11 +104,11 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 
 **Objectif :** se démarquer des autres projets portfolio.
 
-- [ ] **Ma liste / Watchlist** : ajout de favoris
-  - Version simple : `localStorage` + contexte React
-  - Version avancée : authentification (NextAuth / Auth.js) + base de données (Supabase, Prisma…)
+- [x] **Ma liste / Watchlist** : ajout de favoris ✅ _(bouton cœur sur les cartes et les fiches, `localStorage` + contexte React, synchro inter-onglets)_
+  - Version simple : `localStorage` + contexte React — **livrée**
+  - Version avancée : authentification (NextAuth / Auth.js) + base de données (Supabase, Prisma…) — optionnelle
 - [ ] Mode **sombre / clair** (souvent natif avec un bon design TMDB)
-- [ ] Page « Ma liste » avec gestion (retirer, vider)
+- [x] Page « Ma liste » (`/ma-liste`) avec gestion : retrait individuel, tout retirer, état vide avec action
 - [ ] Où regarder (streaming) via `/watch/providers`
 - [ ] Notes détaillées : barre de progression colorée (comme sur TMDB)
 - [ ] Micro-interactions : transitions, hover sur les cartes, animations `framer-motion` (avec mesure)

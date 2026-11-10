@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { formatRuntime, formatYear } from "@/lib/format";
-import { getMovieDetails, tmdbImage } from "@/lib/tmdb";
+import { getMovieDetails } from "@/lib/tmdb";
+import { tmdbImage } from "@/lib/images";
 import { DetailsSkeleton } from "@/components/DetailsSkeleton";
 import { MediaDetails } from "@/components/MediaDetails";
 
@@ -65,6 +66,7 @@ async function MovieContent({ params }: { params: Promise<{ id: string }> }) {
       cast={movie.credits?.cast?.slice(0, 12) ?? []}
       similar={movie.similar?.results ?? []}
       similarKind="movie"
+      media={movie}
     />
   );
 }

@@ -2,8 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { formatYear } from "@/lib/format";
-import { mediaDate, mediaTitle, tmdbImage } from "@/lib/tmdb";
+import { mediaDate, mediaTitle } from "@/lib/tmdb";
+import { tmdbImage } from "@/lib/images";
+import { toWatchlistItem } from "@/lib/watchlist";
+import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import { RatingBadge } from "@/components/RatingBadge";
+import { WatchlistButton } from "@/components/WatchlistButton";
 import type { MediaItem } from "@/types/tmdb";
 
 interface MovieCardProps {
@@ -11,51 +15,46 @@ interface MovieCardProps {
   kind: "movie" | "tv";
 }
 
-/** Carte média : affiche 2:3, note en surimpression, titre et année — guide de style §6. */
+/**
+ * Carte média : affiche 2:3, note en surimpression, titre et année —
+ * guide de style §6. Le bouton favori est hors du lien (pas d'éléments
+ * interactifs imbriqués) mais visuellement posé sur l'affiche.
+ */
 export function MovieCard({ item, kind }: MovieCardProps) {
   const title = mediaTitle(item);
   const poster = tmdbImage(item.poster_path, "w342");
   const year = formatYear(mediaDate(item));
 
   return (
-    <Link
-      href={`/${kind}/${item.id}`}
-      className="group rounded-card focus-visible:ring-primary block focus-visible:ring-2 focus-visible:outline-none"
-    >
-      <div className="rounded-card bg-surface-2 group-focus-visible:ring-primary/60 group-hover:ring-primary/60 relative aspect-[2/3] overflow-hidden transition duration-200 ease-out group-hover:ring-2 group-focus-visible:ring-2 motion-reduce:transition-none">
-        {poster ? (
-          <Image
-            src={poster}
-            alt={`Affiche de ${title}`}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-            className="object-cover transition-transform duration-200 ease-out group-hover:scale-105 motion-reduce:transform-none"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center">
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="text-muted size-10"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 4.5A1.5 1.5 0 015.5 3h13A1.5 1.5 0 0120 4.5v15a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 19.5v-15zM4 8h16M8 3v5M16 3v5"
-              />
-            </svg>
+    <div className="group relative">
+      <Link
+        href={`/${kind}/${item.id}`}
+        className="rounded-card focus-visible:ring-primary block focus-visible:ring-2 focus-visible:outline-none"
+      >
+        <div className="rounded-card bg-surface-2 group-focus-visible:ring-primary/60 group-hover:ring-primary/60 relative aspect-[2/3] overflow-hidden transition duration-200 ease-out group-hover:ring-2 group-focus-visible:ring-2 motion-reduce:transition-none">
+          {poster ? (
+            <Image
+              src={poster}
+              alt={`Affiche de ${title}`}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+              className="object-cover transition-transform duration-200 ease-out group-hover:scale-105 motion-reduce:transform-none"
+            />
+          ) : (
+            <PosterPlaceholder />
+          )}
+          <div className="absolute top-2 left-2">
+            <RatingBadge vote={item.vote_average} />
           </div>
-        )}
-        <div className="absolute top-2 left-2">
-          <RatingBadge vote={item.vote_average} />
         </div>
-      </div>
 
-      <h3 className="mt-2 line-clamp-2 text-sm font-medium">{title}</h3>
-      {year && <p className="text-muted text-xs">{year}</p>}
-    </Link>
+        <h3 className="mt-2 line-clamp-2 text-sm font-medium">{title}</h3>
+        {year && <p className="text-muted text-xs">{year}</p>}
+      </Link>
+
+      <div className="absolute top-2 right-2 z-10">
+        <WatchlistButton item={toWatchlistItem(item, kind)} />
+      </div>
+    </div>
   );
 }

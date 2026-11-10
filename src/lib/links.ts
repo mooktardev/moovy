@@ -3,4 +3,5 @@ export const LINKS = [
   { href: "/", label: "Accueil" },
   { href: "/films", label: "Films" },
   { href: "/series", label: "Séries" },
+  { href: "/ma-liste", label: "Ma liste" },
 ];
