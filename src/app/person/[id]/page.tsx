@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { formatDateFr, formatYear } from "@/lib/format";
 import { getPersonDetails } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
+import { AgeSpan } from "@/components/AgeSpan";
 import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import type { PersonCredit } from "@/types/tmdb";
 
@@ -89,8 +90,10 @@ async function PersonContent({ params }: { params: Promise<{ id: string }> }) {
               {person.birthday && (
                 <span>
                   Naissance : {formatDateFr(person.birthday)}
-                  {ageAns(person.birthday, person.deathday) !== null &&
-                    ` (${ageAns(person.birthday, person.deathday)} ans)`}
+                  <AgeSpan
+                    birthday={person.birthday}
+                    deathday={person.deathday}
+                  />
                 </span>
               )}
               {person.deathday && (
@@ -186,19 +189,6 @@ const DEPARTEMENTS: Record<string, string> = {
   Editing: "Montage",
   "Visual Effects": "Effets visuels",
 };
-
-/** Âge en années (vécu si décès connu), arrondi à l'année. */
-function ageAns(birthday: string, deathday: string | null): number | null {
-  const start = new Date(`${birthday}T00:00:00`);
-  if (Number.isNaN(start.getTime())) return null;
-  const end = deathday ? new Date(`${deathday}T00:00:00`) : new Date();
-  let age = end.getFullYear() - start.getFullYear();
-  const beforeBirthday =
-    end.getMonth() < start.getMonth() ||
-    (end.getMonth() === start.getMonth() && end.getDate() < start.getDate());
-  if (beforeBirthday) age -= 1;
-  return age;
-}
 
 function PersonSkeleton() {
   return (
