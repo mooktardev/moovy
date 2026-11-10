@@ -132,7 +132,7 @@ export function MediaDetails({
           <h2 className="font-display text-xl font-semibold md:text-2xl">
             Casting principal
           </h2>
-          <ul className="mt-4 flex gap-4 overflow-x-auto pb-2">
+          <ul className="mt-4 flex scrollbar-none gap-4 overflow-x-auto pb-2">
             {cast.map((member) => {
               const profile = tmdbImage(member.profile_path, "w185");
               return (

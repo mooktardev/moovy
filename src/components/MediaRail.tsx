@@ -17,7 +17,7 @@ export function MediaRail({ title, items, kind = "movie" }: MediaRailProps) {
       <h2 className="font-display text-xl font-semibold md:text-2xl">
         {title}
       </h2>
-      <ul className="mt-4 flex gap-4 overflow-x-auto pb-2">
+      <ul className="mt-4 flex scrollbar-none gap-4 overflow-x-auto pb-2">
         {items.map((item) => (
           <li key={item.id} className="w-40 shrink-0 sm:w-44">
             <MovieCard item={item} kind={mediaKind(item, kind)} />
