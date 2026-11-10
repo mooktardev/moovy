@@ -5,7 +5,7 @@ import { tmdbImage } from "@/lib/images";
 import { toWatchlistItem, type WatchlistItem } from "@/lib/watchlist";
 import { MediaRail } from "@/components/MediaRail";
 import { PosterPlaceholder } from "@/components/PosterPlaceholder";
-import { RatingBadge } from "@/components/RatingBadge";
+import { RatingRing } from "@/components/RatingRing";
 import { WatchlistButton } from "@/components/WatchlistButton";
 import { WatchProviders } from "@/components/WatchProviders";
 import type {
@@ -95,8 +95,8 @@ export function MediaDetails({
             </h1>
             {tagline && <p className="text-muted mt-1 italic">« {tagline} »</p>}
             <div className="text-muted mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+              {rating > 0 && <RatingRing vote={rating} />}
               {year && <span>{year}</span>}
-              <RatingBadge vote={rating} />
               {metaLine && <span>{metaLine}</span>}
             </div>
             <div className="mt-5 flex flex-wrap items-center gap-3">

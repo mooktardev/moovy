@@ -15,6 +15,7 @@
   --muted: #a1a1aa;
   --primary: #e11d48;
   --rating: #f59e0b;
+  --rating-good: #22c55e;
   --danger: #ef4444;
 }
 
@@ -37,6 +38,7 @@
   --color-muted: var(--muted);
   --color-primary: var(--primary);
   --color-rating: var(--rating);
+  --color-rating-good: var(--rating-good);
   --color-danger: var(--danger);
 
   --font-sans: var(--font-inter), system-ui, sans-serif;

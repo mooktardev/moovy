@@ -110,7 +110,7 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 - [x] Mode **sombre / clair** ✅ _(tokens neutres redéfinis sous `.light`, bascule dans la navbar, choix persisté, script anti-flash)_
 - [x] Page « Ma liste » (`/ma-liste`) avec gestion : retrait individuel, tout retirer, état vide avec action
 - [x] Où regarder (streaming) via `/watch/providers` ✅ _(logos d'offres FR par groupe abonnement/location/achat + lien JustWatch, attribution TMDB)_
-- [ ] Notes détaillées : barre de progression colorée (comme sur TMDB)
+- [x] Notes détaillées : barre de progression colorée (comme sur TMDB) ✅ _(anneau SVG `RatingRing` sur les fiches : arc rempli au pourcentage du score, vert/ambre/rouge selon la note, format « 8,4 / 10 »)_
 - [ ] Micro-interactions : transitions, hover sur les cartes, animations `framer-motion` (avec mesure)
 - [ ] Page « Acteurs populaires » et page détail acteur (`/person/[id]`)
 - [ ] Gestion des erreurs : `error.tsx`, page `not-found.tsx` personnalisées

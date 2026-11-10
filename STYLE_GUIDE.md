@@ -13,17 +13,18 @@ Un guide volontairement court, pensé pour un portfolio : peu de règles, mais a
 
 Définies une seule fois comme tokens, jamais de couleur en dur dans les composants.
 
-| Rôle                             | Token        | Valeur    |
-| -------------------------------- | ------------ | --------- |
-| Fond principal                   | `background` | `#0B0B0F` |
-| Surface (cartes, navbar)         | `surface`    | `#15151C` |
-| Surface élevée (survol, modales) | `surface-2`  | `#1F1F29` |
-| Bordure                          | `border`     | `#2A2A36` |
-| Texte principal                  | `foreground` | `#F4F4F5` |
-| Texte secondaire                 | `muted`      | `#A1A1AA` |
-| Accent (boutons, liens, focus)   | `primary`    | `#E11D48` |
-| Note / étoile                    | `rating`     | `#F59E0B` |
-| Erreur                           | `danger`     | `#EF4444` |
+| Rôle                               | Token         | Valeur    |
+| ---------------------------------- | ------------- | --------- |
+| Fond principal                     | `background`  | `#0B0B0F` |
+| Surface (cartes, navbar)           | `surface`     | `#15151C` |
+| Surface élevée (survol, modales)   | `surface-2`   | `#1F1F29` |
+| Bordure                            | `border`      | `#2A2A36` |
+| Texte principal                    | `foreground`  | `#F4F4F5` |
+| Texte secondaire                   | `muted`       | `#A1A1AA` |
+| Accent (boutons, liens, focus)     | `primary`     | `#E11D48` |
+| Note / étoile                      | `rating`      | `#F59E0B` |
+| Bonne note (anneau de progression) | `rating-good` | `#22C55E` |
+| Erreur                             | `danger`      | `#EF4444` |
 
 Règles :
 
@@ -45,6 +46,7 @@ Règles :
   --color-muted: #a1a1aa;
   --color-primary: #e11d48;
   --color-rating: #f59e0b;
+  --color-rating-good: #22c55e;
   --color-danger: #ef4444;
 
   --font-sans: var(--font-inter), system-ui, sans-serif;
@@ -108,6 +110,11 @@ Règles : un seul `h1` par page, `max-w-prose` pour les synopsis, titres longs t
 **RatingBadge**
 
 - `bg-black/70 text-rating text-xs font-semibold px-2 py-1 rounded-full`, étoile + note sur 10 avec une décimale.
+
+**RatingRing** (fiches détaillées)
+
+- Anneau de progression SVG façon TMDB : arc coloré selon la note (`rating-good` ≥ 7, `rating` 4–7, `danger` < 4), piste en `border`, score au centre au format « 8,4 / 10 ».
+- `role="img"` avec `aria-label` descriptif — la couleur ne porte jamais seule l'information (§9).
 
 **Champs (recherche)**
 
