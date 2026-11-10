@@ -153,3 +153,16 @@ export function mediaTitle(item: MediaItem): string {
 export function mediaDate(item: MediaItem): string | null {
   return item.release_date ?? item.first_air_date ?? null;
 }
+
+/**
+ * Type de lien d'une carte. Les personnes renvoyées par `/search/multi`
+ * n'ont pas de fiche : on retombe sur le type par défaut de la liste.
+ */
+export function mediaKind(
+  item: MediaItem,
+  fallback: MediaKind = "movie",
+): MediaKind {
+  return item.media_type === "movie" || item.media_type === "tv"
+    ? item.media_type
+    : fallback;
+}

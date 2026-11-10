@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { LINKS } from "@/lib/links";
+import { SearchBar } from "@/components/SearchBar";
 
 /** Lien actif en text-primary (guide de style §6). */
 function NavLink({ href, label }: { href: string; label: string }) {
@@ -26,13 +27,15 @@ function NavLink({ href, label }: { href: string; label: string }) {
 export function Navbar() {
   return (
     <header className="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
+      <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-3 md:px-6">
         <Link
           href="/"
           className="font-display text-foreground hover:text-primary focus-visible:ring-primary text-xl font-bold tracking-tight transition duration-200 ease-out focus-visible:ring-2"
         >
           Moovy
         </Link>
+
+        <SearchBar className="order-3 w-full sm:order-none sm:w-48 lg:w-64" />
 
         <div className="flex items-center gap-1 sm:gap-2">
           {LINKS.map((link) => (

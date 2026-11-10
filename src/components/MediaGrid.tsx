@@ -1,4 +1,5 @@
 import type { MediaItem, MediaKind } from "@/types/tmdb";
+import { mediaKind } from "@/lib/tmdb";
 import { MovieCard } from "@/components/MovieCard";
 
 /** Grille d'affiches responsive — guide de style §4. */
@@ -17,7 +18,7 @@ export function MediaGrid({
     <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
       {items.map((item) => (
         <li key={item.id}>
-          <MovieCard item={item} kind={kind} />
+          <MovieCard item={item} kind={mediaKind(item, kind)} />
         </li>
       ))}
     </ul>

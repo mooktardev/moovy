@@ -6,6 +6,9 @@
 
 export type MediaKind = "movie" | "tv";
 
+/** `media_type` complet renvoyé par `/search/multi`, qui inclut les personnes. */
+export type SearchMediaType = MediaKind | "person";
+
 export interface PaginatedResponse<T> {
   page: number;
   results: T[];
@@ -16,7 +19,7 @@ export interface PaginatedResponse<T> {
 /** Entrée de liste : film ou série (cartes, carrousels, recherche). */
 export interface MediaItem {
   id: number;
-  media_type?: MediaKind;
+  media_type?: SearchMediaType;
   /** Titre du film (`title`) ou de la série (`name`). */
   title?: string;
   name?: string;

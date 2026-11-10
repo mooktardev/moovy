@@ -76,7 +76,7 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 
 ### 2.2 Catalogue / Découverte
 
-- [ ] Page Films et page Séries avec **pagination** ou scroll infini *(v1 livrée : page 1 des populaires)*
+- [ ] Page Films et page Séries avec **pagination** ou scroll infini _(v1 livrée : page 1 des populaires)_
 - [ ] Filtres : genre, année, tri (popularité, note, date)
 - [x] Grille responsive adaptée aux cartes
 
@@ -89,11 +89,12 @@ Application de découverte de films et séries propulsée par l'API [TheMovieDB 
 - [x] Recommandations / similaires
 - [x] Routes dynamiques : `/movie/[id]`, `/tv/[id]` avec métadonnées dynamiques (`generateMetadata`)
 
-### 2.4 Recherche
+### 2.4 Recherche ✅
 
-- [ ] Barre de recherche dans le header (endpoint `/search/multi`)
-- [ ] Résultats en temps réel (debounce) ou page de résultats dédiée `/search?q=`
-- [ ] Gestion de l'état vide (aucun résultat)
+- [x] Barre de recherche dans le header (endpoint `/search/multi`, debounce 300 ms)
+- [x] Résultats en temps réel : navigation vers `/search?q=` (sans polluer l'historique sur la page recherche)
+- [x] Gestion de l'état vide (aucun résultat) et des personnes renvoyées par `/search/multi`
+- [x] Page `/search` en Partial Prerender : shell statique + résultats streamés sous `Suspense`
 
 **Livrable :** l'app est navigable de bout en bout : accueil → catalogue → détail, avec recherche fonctionnelle.
 
