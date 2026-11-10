@@ -56,6 +56,8 @@ function ProviderList({
 /**
  * « Où regarder » : offres de streaming du pays choisi, données
  * `/watch/providers`. TMDB exige le lien JustWatch en attribution.
+ * Rend le contenu seul (sans titre de section) : le titre appartient
+ * à la mise en page hôte.
  */
 export function WatchProviders({
   providers,
@@ -73,10 +75,7 @@ export function WatchProviders({
   if (groups.length === 0) return null;
 
   return (
-    <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
-      <h2 className="font-display text-xl font-semibold md:text-2xl">
-        Où regarder
-      </h2>
+    <div>
       <div className="mt-4 space-y-4">
         {groups.map((group) => (
           <ProviderList
@@ -96,6 +95,21 @@ export function WatchProviders({
           Offres de streaming en France — détails sur JustWatch
         </Link>
       )}
-    </section>
+    </div>
+  );
+}
+
+/**
+ * Indique si des offres existent pour le pays donné — permet à la mise
+ * en page hôte de décider de la colonne avant le rendu.
+ */
+export function hasWatchProviders(
+  providers: Record<string, WatchProvidersData | undefined> | undefined,
+  countryCode = "FR",
+): boolean {
+  const data = providers?.[countryCode];
+  if (!data) return false;
+  return [data.flatrate, data.rent, data.buy].some(
+    (group) => group && group.length > 0,
   );
 }

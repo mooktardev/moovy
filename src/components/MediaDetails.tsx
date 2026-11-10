@@ -7,11 +7,12 @@ import { MediaRail } from "@/components/MediaRail";
 import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import { RatingRing } from "@/components/RatingRing";
 import { WatchlistButton } from "@/components/WatchlistButton";
-import { WatchProviders } from "@/components/WatchProviders";
+import { WatchProviders, hasWatchProviders } from "@/components/WatchProviders";
 import type {
   CastMember,
   MediaItem,
   MediaKind,
+  ReviewSummary,
   WatchProviders as WatchProvidersData,
 } from "@/types/tmdb";
 
@@ -30,6 +31,8 @@ interface MediaDetailsProps {
   cast: CastMember[];
   similar: MediaItem[];
   similarKind: MediaKind;
+  /** Critiques utilisateurs TMDB, les plus récentes d'abord (3 affichées). */
+  reviews: ReviewSummary[];
   /** Données pour le bouton « Ajouter à ma liste ». */
   media: MediaItem;
   /** Offres de streaming par pays (optionnel). */
@@ -50,10 +53,15 @@ export function MediaDetails({
   cast,
   similar,
   similarKind,
+  reviews,
   media,
   providers,
 }: MediaDetailsProps) {
   const watchlistItem: WatchlistItem = toWatchlistItem(media, similarKind);
+  const recentReviews = [...reviews]
+    .sort((a, b) => b.created_at.localeCompare(a.created_at))
+    .slice(0, 3);
+  const hasProviders = hasWatchProviders(providers);
   return (
     <article className="pb-12">
       {/* Hero : couverture étendue, contenu superposé sur dégradé */}
@@ -199,14 +207,93 @@ export function MediaDetails({
         </section>
       )}
 
-      {/* Où regarder */}
-      {providers && <WatchProviders providers={providers} />}
+      {/* Critiques (gauche) + Où regarder (droite) */}
+      {(recentReviews.length > 0 || hasProviders) && (
+        <section className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
+          <div
+            className={
+              recentReviews.length > 0 && hasProviders
+                ? "grid gap-8 lg:grid-cols-2 lg:gap-10"
+                : ""
+            }
+          >
+            {recentReviews.length > 0 && (
+              <div>
+                <h2 className="font-display text-xl font-semibold md:text-2xl">
+                  Critiques
+                </h2>
+                <ul className="mt-3 space-y-4">
+                  {recentReviews.map((review) => (
+                    <li key={review.id}>
+                      <ReviewCard review={review} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {hasProviders && (
+              <div>
+                <h2 className="font-display text-xl font-semibold md:text-2xl">
+                  Où regarder
+                </h2>
+                <WatchProviders providers={providers} />
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Recommandations */}
       {similar.length > 0 && (
         <div className="mt-10">
           <MediaRail title="Similaires" items={similar} kind={similarKind} />
         </div>
+      )}
+    </article>
+  );
+}
+
+/** Date FR d'un horodatage ISO, ex. « 12 mars 2024 » (valeur figée : prerender OK). */
+function formatReviewDate(iso: string): string | null {
+  const parsed = new Date(iso);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+/** Carte de critique utilisateur — guide de style §6 (surface, coins, focus). */
+function ReviewCard({ review }: { review: ReviewSummary }) {
+  const date = formatReviewDate(review.created_at);
+
+  return (
+    <article className="border-border bg-surface-2/50 rounded-card border p-4">
+      <div className="flex items-center gap-3">
+        <div
+          aria-hidden="true"
+          className="bg-surface-2 ring-border text-foreground flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ring-1"
+        >
+          {review.author.charAt(0).toUpperCase()}
+        </div>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-medium">{review.author}</p>
+          {date && <p className="text-muted text-xs">{date}</p>}
+        </div>
+      </div>
+      <p className="text-muted mt-3 line-clamp-4 text-sm leading-relaxed whitespace-pre-line">
+        {review.content}
+      </p>
+      {review.url && (
+        <a
+          href={review.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground focus-visible:ring-primary text-muted mt-3 inline-block text-xs underline-offset-4 transition duration-200 ease-out hover:underline focus-visible:ring-2 focus-visible:outline-none"
+        >
+          Lire la critique complète sur TMDB
+        </a>
       )}
     </article>
   );

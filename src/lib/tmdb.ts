@@ -8,6 +8,7 @@ import type {
   PaginatedResponse,
   PersonDetails,
   PersonSummary,
+  ReviewSummary,
   SortOption,
   TvDetails,
 } from "@/types/tmdb";
@@ -23,13 +24,15 @@ type QueryParams = Record<string, string | number | boolean | undefined>;
  * Appel serveur vers l'API TMDB.
  * Authentification : jeton v4 (`TMDB_ACCESS_TOKEN`) si présent,
  * sinon clé v3 (`TMDB_API_KEY`). Les clés ne quittent jamais le serveur.
+ * `includeLanguage = false` pour les contenus non traduits (critiques).
  */
 async function tmdbFetch<T>(
   path: string,
   params: QueryParams = {},
+  includeLanguage = true,
 ): Promise<T> {
   const search = new URLSearchParams({
-    language: "fr-FR",
+    ...(includeLanguage ? { language: "fr-FR" } : {}),
     ...Object.fromEntries(
       Object.entries(params)
         .filter(([, value]) => value !== undefined)
@@ -116,6 +119,24 @@ export async function getMovieDetails(id: number): Promise<MovieDetails> {
 
 export async function getTvDetails(id: number): Promise<TvDetails> {
   return tmdbFetch(`/tv/${id}`, { append_to_response: DETAILS_APPEND });
+}
+
+/**
+ * Critiques utilisateurs d'une fiche, **sans** filtre de langue :
+ * elles sont rédigées par la communauté (surtout en anglais) et le
+ * paramètre `language` les masquerait toutes pour un titre sans
+ * critique francophone.
+ */
+export async function getMediaReviews(
+  kind: MediaKind,
+  id: number,
+): Promise<ReviewSummary[]> {
+  const data = await tmdbFetch<PaginatedResponse<ReviewSummary>>(
+    `/${kind}/${id}/reviews`,
+    {},
+    false,
+  );
+  return data.results;
 }
 
 /* ------------------------------------------------------------------ */

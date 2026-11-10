@@ -73,6 +73,22 @@ export interface WatchProviders {
   buy?: WatchProvider[];
 }
 
+/** Critique utilisateur TMDB (`/reviews`). */
+export interface ReviewSummary {
+  id: string;
+  author: string;
+  content: string;
+  /** Date de publication (ISO). */
+  created_at: string;
+  url: string | null;
+  author_details?: {
+    name?: string | null;
+    username?: string;
+    avatar_path?: string | null;
+    rating: number | null;
+  };
+}
+
 /** Champs ajoutés via `append_to_response` (crédits, vidéos, similaires, offres). */
 interface AppendedDetails {
   credits?: {

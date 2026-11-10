@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { formatRuntime, formatYear } from "@/lib/format";
-import { getMovieDetails } from "@/lib/tmdb";
+import { getMediaReviews, getMovieDetails } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
 import { DetailsSkeleton } from "@/components/DetailsSkeleton";
 import { MediaDetails } from "@/components/MediaDetails";
@@ -38,6 +38,8 @@ async function MovieContent({ params }: { params: Promise<{ id: string }> }) {
   } catch {
     notFound();
   }
+  // Échec non bloquant : la fiche reste valable sans critiques.
+  const reviews = await getMediaReviews("movie", Number(id)).catch(() => []);
 
   const trailer = movie.videos?.results?.find(
     (video) => video.site === "YouTube" && video.type === "Trailer",
@@ -63,6 +65,7 @@ async function MovieContent({ params }: { params: Promise<{ id: string }> }) {
       cast={movie.credits?.cast?.slice(0, 12) ?? []}
       similar={movie.similar?.results ?? []}
       similarKind="movie"
+      reviews={reviews}
       media={movie}
       providers={movie["watch/providers"]?.results}
     />
