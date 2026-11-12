@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { LINKS } from "@/lib/links";
+import { Logo } from "@/components/Logo";
 import { SearchBar } from "@/components/SearchBar";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -31,8 +32,9 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-3 md:px-6">
         <Link
           href="/"
-          className="font-display text-foreground hover:text-primary focus-visible:ring-primary text-xl font-bold tracking-tight transition duration-200 ease-out focus-visible:ring-2"
+          className="font-display text-foreground hover:text-primary focus-visible:ring-primary flex items-center gap-2 text-xl font-bold tracking-tight transition duration-200 ease-out focus-visible:ring-2"
         >
+          <Logo className="size-7 shrink-0" />
           Moovy
         </Link>
 

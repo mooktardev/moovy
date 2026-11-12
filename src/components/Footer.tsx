@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { LINKS } from "@/lib/links";
+import { Logo } from "@/components/Logo";
 
 /** Lien externe discret avec anneau de focus — guide de style §8/§9. */
 function ExternalLink({
@@ -34,7 +35,10 @@ export function Footer() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-display text-lg font-bold tracking-tight">
-              Moovy
+              <span className="flex items-center gap-2">
+                <Logo className="size-6 shrink-0" />
+                Moovy
+              </span>
             </p>
             <p className="text-muted mt-1 text-sm">
               Votre escale cinéma : tendances, fiches détaillées et favoris.
