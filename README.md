@@ -48,7 +48,7 @@ _Accueil en thème clair :_
 - **Images optimisées** : `next/image` avec `sizes` précis, tailles TMDB adaptées au contexte (cartes `w342`, fiches `w780`/`w1280`).
 - **Erreurs distinguées** : un identifiant invalide ou un 404 TMDB affiche la page 404 ; une panne ou un quota dépassé (5xx, 429) affiche la page d'erreur avec « Réessayer » (`src/lib/tmdb-errors.ts`).
 - **SEO** (`src/lib/seo.ts`, `src/lib/og.tsx`) : canonique posée page par page (jamais dans le layout, sinon toutes les pages héritent de celle de l'accueil) ; images Open Graph rendues par `next/og` avec la police Outfit embarquée (aucun appel réseau) ; JSON-LD échappé contre l'injection de `</script>` ; `/search` et `/ma-liste` en `noindex`.
-- **Accessibilité** : anneaux de focus visibles, zones tactiles ≥ 40 px, icônes avec `aria-label`, animations désactivables.
+- **Accessibilité** : contrôlée automatiquement par [axe](https://github.com/dequelabs/axe-core) (WCAG 2.2 AA) sur toutes les pages, en thème sombre et clair, sur bureau et mobile ; contrastes AA (tokens `--primary-text` et `--danger` dédiés au texte), hiérarchie de titres, noms accessibles égaux au texte visible, anneaux de focus visibles, zones tactiles ≥ 40 px, animations désactivables.
 
 ## 🚀 Installation locale
 
@@ -76,7 +76,7 @@ npm run lint       # ESLint
 npm run typecheck  # types des routes Next + TypeScript
 ```
 
-Les tests e2e construisent l'application en production (dans `.next-e2e`) et la branchent sur un **faux TMDB** (`e2e/mock-tmdb`) : ni clé, ni réseau, des données stables. Ils couvrent l'accueil et les fiches, le casting, les catalogues, la recherche (dont la régression du retour sur `/search`), Ma liste (persistance et synchronisation entre onglets), les pages 404 et d'erreur, le thème et les balises SEO, sur bureau et mobile. Première exécution locale : `npx playwright install chromium`.
+Les tests e2e construisent l'application en production (dans `.next-e2e`) et la branchent sur un **faux TMDB** (`e2e/mock-tmdb`) : ni clé, ni réseau, des données stables. Ils couvrent l'accueil et les fiches, le casting, les catalogues, la recherche (dont la régression du retour sur `/search`), Ma liste (persistance et synchronisation entre onglets), les pages 404 et d'erreur, le thème, les balises SEO et l'accessibilité (axe, WCAG 2.2 AA, dans les deux thèmes), sur bureau et mobile. Première exécution locale : `npx playwright install chromium`.
 
 La CI GitHub Actions (`.github/workflows/ci.yml`) lance formatage, lint, types et tests unitaires, puis le build de production et les tests e2e, à chaque push et pull request.
 
