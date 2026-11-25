@@ -17,6 +17,12 @@
 - **Testé de bout en bout** : 98 tests unitaires et de composants, 86 tests Playwright sur un build de production branché sur un faux TMDB, audit d'accessibilité axe dans les deux thèmes, le tout en CI à chaque pull request.
 - **Soigné au-delà de l'interface** : erreurs distinguées (404 ou panne), SEO complet avec images de partage générées, accessibilité WCAG 2.2 AA vérifiée automatiquement.
 
+## Démo
+
+![Parcours : accueil, fiche, ajout à Ma liste, recherche, thème clair](docs/captures/demo.gif)
+
+_Accueil → fiche → ajout à Ma liste → recherche → Ma liste → thème clair, enregistré sur le site en ligne._
+
 ## Captures d'écran
 
 | Accueil (sombre)                                             | Fiche détaillée                                     |
@@ -109,6 +115,15 @@ Les clés se génèrent sur [themoviedb.org/settings/api](https://www.themoviedb
 | `npm run typecheck` | Types des routes Next + TypeScript                                |
 
 Les tests e2e construisent l'application en production (dans `.next-e2e`) et la branchent sur un **faux TMDB** ([`e2e/mock-tmdb`](e2e/mock-tmdb)) : ni clé, ni réseau, des données stables. Ils couvrent les parcours principaux (accueil, fiches, casting, catalogues, recherche, Ma liste et sa synchronisation entre onglets), les pages 404 et d'erreur, le thème, les balises SEO et l'accessibilité, sur bureau et mobile. Première exécution locale : `npx playwright install chromium`.
+
+### Lighthouse
+
+Accueil du site en ligne, médiane de 3 mesures (Lighthouse 12.8, le 25/11/2026) :
+
+| Accueil         | Performance | Accessibilité | Bonnes pratiques | SEO |
+| --------------- | ----------- | ------------- | ---------------- | --- |
+| Ordinateur      | 99          | 100           | 100              | 100 |
+| Mobile (simulé) | 74          | 100           | 100              | 100 |
 
 La [CI](.github/workflows/ci.yml) lance formatage, lint, types et tests unitaires, puis le build de production et les tests e2e, à chaque push et pull request.
 

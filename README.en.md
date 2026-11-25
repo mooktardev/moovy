@@ -17,6 +17,12 @@
 - **Tested end to end**: 98 unit and component tests, 86 Playwright tests against a production build wired to a fake TMDB, an axe accessibility audit in both themes, all run in CI on every pull request.
 - **Polished beyond the UI**: errors told apart (404 vs outage), full SEO with generated share images, WCAG 2.2 AA accessibility checked automatically.
 
+## Demo
+
+![Journey: home, detail page, add to watchlist, search, light theme](docs/captures/demo.gif)
+
+_Home → detail page → add to watchlist → search → watchlist → light theme, recorded on the live site._
+
 ## Screenshots
 
 | Home (dark)                                                | Detail page                                               |
@@ -109,6 +115,15 @@ Keys are created at [themoviedb.org/settings/api](https://www.themoviedb.org/set
 | `npm run typecheck` | Next route types + TypeScript                               |
 
 E2E tests build the app for production (into `.next-e2e`) and wire it to a **fake TMDB** ([`e2e/mock-tmdb`](e2e/mock-tmdb)): no key, no network, stable data. They cover the main journeys (home, detail pages, cast, catalogues, search, watchlist and its cross-tab sync), the 404 and error pages, the theme, SEO tags and accessibility, on desktop and mobile. First local run: `npx playwright install chromium`.
+
+### Lighthouse
+
+Live site home page, median of 3 runs (Lighthouse 12.8, 25 Nov 2026):
+
+| Home page          | Performance | Accessibility | Best practices | SEO |
+| ------------------ | ----------- | ------------- | -------------- | --- |
+| Desktop            | 99          | 100           | 100            | 100 |
+| Mobile (simulated) | 74          | 100           | 100            | 100 |
 
 [CI](.github/workflows/ci.yml) runs formatting, lint, types and unit tests, then the production build and e2e tests, on every push and pull request.
 
