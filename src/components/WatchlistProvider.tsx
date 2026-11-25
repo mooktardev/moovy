@@ -2,19 +2,20 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
 } from "react";
 
 import {
-  readWatchlist,
+  getWatchlistServerSnapshot,
+  getWatchlistSnapshot,
+  subscribeWatchlist,
+  updateWatchlist,
   watchlistKey,
-  writeWatchlist,
   type WatchlistItem,
 } from "@/lib/watchlist";
+import { useHydrated } from "@/lib/use-client-value";
 
 interface WatchlistContextValue {
   items: WatchlistItem[];
@@ -28,58 +29,51 @@ interface WatchlistContextValue {
 
 const WatchlistContext = createContext<WatchlistContextValue | null>(null);
 
-export function WatchlistProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<WatchlistItem[]>([]);
-  const [hydrated, setHydrated] = useState(false);
-
-  // Chargement après l'hydratation : le rendu serveur et le premier rendu
-  // client sont identiques (liste vide), pas de mismatch.
-  useEffect(() => {
-    setItems(readWatchlist());
-    setHydrated(true);
-  }, []);
-
-  // Persistance à chaque changement.
-  useEffect(() => {
-    if (hydrated) writeWatchlist(items);
-  }, [items, hydrated]);
-
-  // Synchronisation entre onglets.
-  useEffect(() => {
-    function onStorage(event: StorageEvent) {
-      if (event.key === "moovy:watchlist") setItems(readWatchlist());
-    }
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
-
-  const has = useCallback(
-    (kind: WatchlistItem["kind"], id: number) =>
-      items.some((item) => item.kind === kind && item.id === id),
-    [items],
+function toggle(item: WatchlistItem) {
+  const key = watchlistKey(item);
+  updateWatchlist((items) =>
+    items.some((entry) => watchlistKey(entry) === key)
+      ? items.filter((entry) => watchlistKey(entry) !== key)
+      : [item, ...items],
   );
+}
 
-  const toggle = useCallback((item: WatchlistItem) => {
-    const key = watchlistKey(item);
-    setItems((previous) =>
-      previous.some((entry) => watchlistKey(entry) === key)
-        ? previous.filter((entry) => watchlistKey(entry) !== key)
-        : [item, ...previous],
-    );
-  }, []);
+function remove(kind: WatchlistItem["kind"], id: number) {
+  const key = watchlistKey({ kind, id });
+  updateWatchlist((items) =>
+    items.filter((entry) => watchlistKey(entry) !== key),
+  );
+}
 
-  const remove = useCallback((kind: WatchlistItem["kind"], id: number) => {
-    const key = `${kind}-${id}`;
-    setItems((previous) =>
-      previous.filter((entry) => watchlistKey(entry) !== key),
-    );
-  }, []);
+function clear() {
+  updateWatchlist(() => []);
+}
 
-  const clear = useCallback(() => setItems([]), []);
+/**
+ * Watchlist partagée par l'application. L'état vit dans un store externe
+ * adossé à localStorage (`@/lib/watchlist`) : le serveur et l'hydratation
+ * rendent une liste vide, puis React lit le stockage — pas de mismatch.
+ * Les autres onglets sont suivis via l'événement `storage`.
+ */
+export function WatchlistProvider({ children }: { children: React.ReactNode }) {
+  const items = useSyncExternalStore(
+    subscribeWatchlist,
+    getWatchlistSnapshot,
+    getWatchlistServerSnapshot,
+  );
+  const hydrated = useHydrated();
 
-  const value = useMemo(
-    () => ({ items, hydrated, has, toggle, remove, clear }),
-    [items, hydrated, has, toggle, remove, clear],
+  const value = useMemo<WatchlistContextValue>(
+    () => ({
+      items,
+      hydrated,
+      has: (kind, id) =>
+        items.some((item) => item.kind === kind && item.id === id),
+      toggle,
+      remove,
+      clear,
+    }),
+    [items, hydrated],
   );
 
   return (

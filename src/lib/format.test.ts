@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ageInYears,
   formatDateFr,
   formatRating,
   formatRuntime,
@@ -44,5 +45,24 @@ describe("formatRuntime", () => {
   it("renvoie null sans durée", () => {
     expect(formatRuntime(0)).toBeNull();
     expect(formatRuntime(null)).toBeNull();
+  });
+});
+
+describe("ageInYears", () => {
+  const on = (date: string) => new Date(`${date}T12:00:00`);
+
+  it("compte les années révolues", () => {
+    expect(ageInYears("1963-12-18", on("2026-12-18"))).toBe(63);
+    expect(ageInYears("1963-12-18", on("2026-12-17"))).toBe(62);
+    expect(ageInYears("1963-12-18", on("2026-01-01"))).toBe(62);
+  });
+
+  it("gère le mois de l'anniversaire avant et après le jour", () => {
+    expect(ageInYears("1990-06-15", on("2020-06-14"))).toBe(29);
+    expect(ageInYears("1990-06-15", on("2020-06-16"))).toBe(30);
+  });
+
+  it("calcule l'âge au décès", () => {
+    expect(ageInYears("1926-06-01", on("1962-08-04"))).toBe(36);
   });
 });

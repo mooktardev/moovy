@@ -1,28 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+import {
+  getServerTheme,
+  getTheme,
+  setTheme,
+  subscribeTheme,
+} from "@/lib/theme";
 
 /**
  * Bascule thème clair/sombre. La classe `.light` sur <html> redéfinit
- * les tokens neutres (globals.css) ; le choix est persisté dans
- * localStorage et appliqué avant la première peinture (THEME_SCRIPT).
+ * les tokens neutres (globals.css) ; l'état vit dans `@/lib/theme`.
  */
 export function ThemeToggle() {
-  const [isLight, setIsLight] = useState(false);
-
-  useEffect(() => {
-    setIsLight(document.documentElement.classList.contains("light"));
-  }, []);
+  const isLight =
+    useSyncExternalStore(subscribeTheme, getTheme, getServerTheme) === "light";
 
   function toggle() {
-    const next = isLight ? "dark" : "light";
-    document.documentElement.classList.toggle("light", next === "light");
-    try {
-      localStorage.setItem("moovy:theme", next);
-    } catch {
-      // Mode privé : le choix vivra juste en mémoire pour la session.
-    }
-    setIsLight(next === "light");
+    setTheme(isLight ? "dark" : "light");
   }
 
   const label = isLight ? "Activer le thème sombre" : "Activer le thème clair";
