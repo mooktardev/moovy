@@ -13,6 +13,8 @@ import type { MediaItem } from "@/types/tmdb";
 interface MovieCardProps {
   item: MediaItem;
   kind: "movie" | "tv";
+  /** Niveau du titre : h3 sous le h2 d'un carrousel, h2 dans une grille de page. */
+  headingLevel?: "h2" | "h3";
 }
 
 /**
@@ -20,7 +22,11 @@ interface MovieCardProps {
  * guide de style §6. Le bouton favori est hors du lien (pas d'éléments
  * interactifs imbriqués) mais visuellement posé sur l'affiche.
  */
-export function MovieCard({ item, kind }: MovieCardProps) {
+export function MovieCard({
+  item,
+  kind,
+  headingLevel: Heading = "h3",
+}: MovieCardProps) {
   const title = mediaTitle(item);
   const poster = tmdbImage(item.poster_path, "w342");
   const year = formatYear(mediaDate(item));
@@ -48,7 +54,9 @@ export function MovieCard({ item, kind }: MovieCardProps) {
           </div>
         </div>
 
-        <h3 className="mt-2 line-clamp-2 text-sm font-medium">{title}</h3>
+        <Heading className="mt-2 line-clamp-2 text-sm font-medium">
+          {title}
+        </Heading>
         {year && <p className="text-muted text-xs">{year}</p>}
       </Link>
 

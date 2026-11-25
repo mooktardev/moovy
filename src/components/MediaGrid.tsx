@@ -3,7 +3,8 @@ import { mediaKind } from "@/lib/tmdb";
 import { MovieCard } from "@/components/MovieCard";
 import { Reveal } from "@/components/Reveal";
 
-/** Grille d'affiches responsive — guide de style §4. */
+/** Grille d'affiches responsive — guide de style §4. Placée directement
+ * sous le h1 de la page : les titres des cartes sont des h2. */
 export function MediaGrid({
   items,
   kind,
@@ -20,7 +21,11 @@ export function MediaGrid({
       <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {items.map((item) => (
           <li key={item.id}>
-            <MovieCard item={item} kind={mediaKind(item, kind)} />
+            <MovieCard
+              item={item}
+              kind={mediaKind(item, kind)}
+              headingLevel="h2"
+            />
           </li>
         ))}
       </ul>

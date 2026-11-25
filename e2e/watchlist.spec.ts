@@ -9,14 +9,12 @@ test("Ma liste : ajout depuis une fiche, persistance, retrait", async ({
   ).toBeVisible();
 
   await page.goto("/movie/550");
-  const add = page.getByRole("button", {
-    name: "Ajouter « Fight Club » à ma liste",
-  });
-  await add.first().click();
+  // Bouton de la fiche : son nom accessible est son texte visible.
+  await page
+    .getByRole("button", { name: "Ajouter à ma liste", exact: true })
+    .click();
   await expect(
-    page
-      .getByRole("button", { name: "Retirer « Fight Club » de ma liste" })
-      .first(),
+    page.getByRole("button", { name: "Dans ma liste", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
 
   await page.goto("/ma-liste");
@@ -51,8 +49,7 @@ test("Ma liste est synchronisée entre deux onglets", async ({
 
   await page.goto("/movie/680");
   await page
-    .getByRole("button", { name: "Ajouter « Pulp Fiction » à ma liste" })
-    .first()
+    .getByRole("button", { name: "Ajouter à ma liste", exact: true })
     .click();
 
   await expect(
