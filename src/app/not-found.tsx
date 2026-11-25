@@ -25,14 +25,14 @@ export default function NotFound() {
         Cette page a disparu du montage final
       </h1>
       <p className="text-muted mt-2">
-        La page que vous cherchez n'existe pas ou n'existe plus.
+        La page que vous cherchez n&apos;existe pas ou n&apos;existe plus.
       </p>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Link
           href="/"
           className="bg-primary hover:bg-primary/90 focus-visible:ring-primary inline-block rounded-lg px-5 py-2.5 font-medium text-white transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
         >
-          Retour à l'accueil
+          Retour à l&apos;accueil
         </Link>
         <Link
           href="/films"

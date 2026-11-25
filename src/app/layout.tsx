@@ -52,10 +52,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             fallback={
               <header className="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur">
                 <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
-                  <span className="flex items-center gap-2 font-display text-xl font-bold tracking-tight">
+                  <span className="font-display flex items-center gap-2 text-xl font-bold tracking-tight">
                     <Logo className="size-7 shrink-0" />
                     Moovy
-                  </span>                  <div className="flex items-center gap-1 sm:gap-2">
+                  </span>{" "}
+                  <div className="flex items-center gap-1 sm:gap-2">
                     {LINKS.map((link) => (
                       <span
                         key={link.href}

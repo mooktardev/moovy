@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 import { formatDateFr, formatYear } from "@/lib/format";
 import { getPersonDetails } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
+import { loadOrNotFound, metadataTitle } from "@/lib/tmdb-errors";
 import { AgeSpan } from "@/components/AgeSpan";
 import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import type { PersonCredit } from "@/types/tmdb";
@@ -15,12 +15,12 @@ export async function generateMetadata(
   props: PageProps<"/person/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
-  try {
-    const person = await getPersonDetails(Number(id));
-    return { title: person.name };
-  } catch {
-    return { title: "Personne introuvable" };
-  }
+  return metadataTitle(
+    id,
+    getPersonDetails,
+    (person) => person.name,
+    "Personne introuvable",
+  );
 }
 
 export default async function PersonPage(props: PageProps<"/person/[id]">) {
@@ -35,12 +35,7 @@ export default async function PersonPage(props: PageProps<"/person/[id]">) {
 async function PersonContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  let person;
-  try {
-    person = await getPersonDetails(Number(id));
-  } catch {
-    notFound();
-  }
+  const person = await loadOrNotFound(id, getPersonDetails);
 
   const profile = tmdbImage(person.profile_path, "w185");
   // Filmographie : crédits d'acteur, dédoublonnés, du plus récent au plus ancien.

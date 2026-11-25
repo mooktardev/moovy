@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 import { formatRuntime, formatYear } from "@/lib/format";
 import { getMediaReviews, getTvDetails } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
+import { loadOrNotFound, metadataTitle } from "@/lib/tmdb-errors";
 import { DetailsSkeleton } from "@/components/DetailsSkeleton";
 import { MediaDetails } from "@/components/MediaDetails";
 
@@ -12,12 +12,12 @@ export async function generateMetadata(
   props: PageProps<"/tv/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
-  try {
-    const show = await getTvDetails(Number(id));
-    return { title: show.name };
-  } catch {
-    return { title: "Série introuvable" };
-  }
+  return metadataTitle(
+    id,
+    getTvDetails,
+    (show) => show.name,
+    "Série introuvable",
+  );
 }
 
 export default async function TvPage(props: PageProps<"/tv/[id]">) {
@@ -32,14 +32,9 @@ export default async function TvPage(props: PageProps<"/tv/[id]">) {
 async function TvContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  let show;
-  try {
-    show = await getTvDetails(Number(id));
-  } catch {
-    notFound();
-  }
+  const show = await loadOrNotFound(id, getTvDetails);
   // Échec non bloquant : la fiche reste valable sans critiques.
-  const reviews = await getMediaReviews("tv", Number(id)).catch(() => []);
+  const reviews = await getMediaReviews("tv", show.id).catch(() => []);
 
   const trailer = show.videos?.results?.find(
     (video) => video.site === "YouTube" && video.type === "Trailer",

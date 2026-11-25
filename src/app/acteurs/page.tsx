@@ -20,7 +20,7 @@ export default async function ActeursPage() {
         Acteurs populaires
       </h1>
       <p className="text-muted mt-2">
-        Les visages les plus populaires du moment, d'après TMDB.
+        Les visages les plus populaires du moment, d&apos;après TMDB.
       </p>
 
       <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">

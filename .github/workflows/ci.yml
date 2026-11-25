@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Lint, types et tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Formatage (Prettier)
+        run: npx prettier --check .
+      - name: Lint (ESLint)
+        run: npm run lint
+      - name: Types (TypeScript)
+        run: npm run typecheck
+      - name: Tests (Vitest)
+        run: npm test
+
+  build:
+    name: Build de production
+    runs-on: ubuntu-latest
+    needs: checks
+    env:
+      # Le prerender interroge TMDB : la clé vient des secrets du dépôt.
+      # Sans secret (forks, PR externes), l'étape est sautée, pas en échec.
+      TMDB_ACCESS_TOKEN: ${{ secrets.TMDB_ACCESS_TOKEN }}
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: next build
+        if: env.TMDB_ACCESS_TOKEN != ''
+        run: npm run build
+      - name: Build ignoré
+        if: env.TMDB_ACCESS_TOKEN == ''
+        run: echo "::notice::Secret TMDB_ACCESS_TOKEN absent, build ignoré."

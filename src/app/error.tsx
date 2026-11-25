@@ -4,15 +4,17 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 interface ErrorProps {
-  error: Error & { digest?: string };
-  reset: () => void;
+  /** Valeur levée : une `Error` côté serveur, n'importe quoi côté client. */
+  error: unknown;
+  /** Recharge les données du segment puis le re-rend (contrairement à `reset`). */
+  retry: () => void;
 }
 
 /**
  * Page d'erreur globale : message clair en text-danger + bouton
  * « Réessayer » (guide de style §8). Le détail technique reste en console.
  */
-export default function Error({ error, reset }: ErrorProps) {
+export default function ErrorPage({ error, retry }: ErrorProps) {
   useEffect(() => {
     // Journalisation : console ici, service d'observabilité (Sentry…)
     // quand le projet en aura besoin.
@@ -39,12 +41,12 @@ export default function Error({ error, reset }: ErrorProps) {
         Une erreur est survenue
       </h1>
       <p className="text-danger mt-2">
-        Impossible d'afficher cette page pour le moment.
+        Impossible d&apos;afficher cette page pour le moment.
       </p>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <button
           type="button"
-          onClick={reset}
+          onClick={retry}
           className="bg-primary hover:bg-primary/90 focus-visible:ring-primary inline-block rounded-lg px-5 py-2.5 font-medium text-white transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
         >
           Réessayer
@@ -53,7 +55,7 @@ export default function Error({ error, reset }: ErrorProps) {
           href="/"
           className="border-border bg-surface-2 hover:bg-surface focus-visible:ring-primary inline-block rounded-lg border px-5 py-2.5 font-medium transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none"
         >
-          Retour à l'accueil
+          Retour à l&apos;accueil
         </Link>
       </div>
     </section>
