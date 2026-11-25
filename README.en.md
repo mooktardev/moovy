@@ -5,6 +5,7 @@
 ![React 19](https://img.shields.io/badge/React-19-149eca?logo=react)
 ![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
 ![WCAG 2.2 AA](https://img.shields.io/badge/accessibility-WCAG%202.2%20AA-2e7d32)
+![MIT licence](https://img.shields.io/badge/licence-MIT-blue)
 
 **Your movie stopover: trending titles, detailed pages and a watchlist.** A portfolio project built on The Movie Database (TMDB) API. The interface is in French.
 
@@ -128,6 +129,10 @@ assets/fonts/       # Outfit font for share images (OFL licence)
 - Movie data: [TheMovieDB](https://www.themoviedb.org/). This product uses the TMDB API but is not endorsed or certified by TMDB.
 - Streaming offers: [JustWatch](https://www.justwatch.com/)
 - Font: [Outfit](https://github.com/Outfitio/Outfit-Fonts) (SIL Open Font License)
+
+## 📄 Licence
+
+Code released under the [MIT licence](LICENSE). TMDB data and images remain subject to the [TMDB terms of use](https://www.themoviedb.org/api-terms-of-use), and the Outfit font (`assets/fonts`) to its [OFL licence](assets/fonts/OFL.txt).
 
 ---
 

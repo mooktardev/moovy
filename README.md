@@ -5,6 +5,7 @@
 ![React 19](https://img.shields.io/badge/React-19-149eca?logo=react)
 ![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
 ![WCAG 2.2 AA](https://img.shields.io/badge/accessibilit%C3%A9-WCAG%202.2%20AA-2e7d32)
+![Licence MIT](https://img.shields.io/badge/licence-MIT-blue)
 
 **Votre escale cinéma : tendances, fiches détaillées et favoris.** Projet de portfolio construit autour de l'API The Movie Database (TMDB).
 
@@ -128,6 +129,10 @@ assets/fonts/       # Police Outfit des images de partage (licence OFL)
 - Données cinématographiques : [TheMovieDB](https://www.themoviedb.org/). Ce produit utilise l'API TMDB sans être approuvé ni certifié par TMDB.
 - Offres de streaming : [JustWatch](https://www.justwatch.com/)
 - Police : [Outfit](https://github.com/Outfitio/Outfit-Fonts) (SIL Open Font License)
+
+## 📄 Licence
+
+Code sous licence [MIT](LICENSE). Les données et images de TMDB restent soumises aux [conditions d'utilisation de TMDB](https://www.themoviedb.org/api-terms-of-use), et la police Outfit (`assets/fonts`) à sa licence [OFL](assets/fonts/OFL.txt).
 
 ---
 
