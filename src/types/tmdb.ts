@@ -111,6 +111,8 @@ export interface MovieDetails extends AppendedDetails {
   poster_path: string | null;
   backdrop_path: string | null;
   vote_average: number;
+  /** Nombre de votes TMDB (absent des anciennes réponses en cache). */
+  vote_count?: number;
   release_date: string | null;
   runtime: number | null;
   status: string;
@@ -125,6 +127,7 @@ export interface TvDetails extends AppendedDetails {
   poster_path: string | null;
   backdrop_path: string | null;
   vote_average: number;
+  vote_count?: number;
   first_air_date: string | null;
   episode_run_time: number[];
   number_of_seasons: number;

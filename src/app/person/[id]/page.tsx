@@ -3,10 +3,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { formatDateFr, formatYear } from "@/lib/format";
+import { departmentLabel, formatDateFr, formatYear } from "@/lib/format";
 import { getPersonDetails } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
-import { loadOrNotFound, metadataTitle } from "@/lib/tmdb-errors";
+import { detailMetadata, loadOrNotFound } from "@/lib/tmdb-errors";
+import {
+  metaDescription,
+  pageMetadata,
+  personJsonLd,
+  siteUrl,
+} from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 import { AgeSpan } from "@/components/AgeSpan";
 import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import type { PersonCredit } from "@/types/tmdb";
@@ -15,10 +22,19 @@ export async function generateMetadata(
   props: PageProps<"/person/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
-  return metadataTitle(
+  return detailMetadata(
     id,
     getPersonDetails,
-    (person) => person.name,
+    (person) =>
+      pageMetadata({
+        title: person.name,
+        description: metaDescription(
+          person.biography,
+          `${person.name} : biographie et filmographie.`,
+        ),
+        path: `/person/${person.id}`,
+        type: "profile",
+      }),
     "Personne introuvable",
   );
 }
@@ -48,12 +64,11 @@ async function PersonContent({ params }: { params: Promise<{ id: string }> }) {
     })
     .sort((a, b) => (creditDate(b) ?? "").localeCompare(creditDate(a) ?? ""));
 
-  const department =
-    DEPARTEMENTS[person.known_for_department ?? ""] ??
-    person.known_for_department;
+  const department = departmentLabel(person.known_for_department);
 
   return (
     <article className="pb-12">
+      <JsonLd data={personJsonLd(person, siteUrl())} />
       {/* En-tête : photo + identité */}
       <section className="mx-auto max-w-7xl px-4 pt-10 md:px-6">
         <div className="flex flex-col gap-6 sm:flex-row">
@@ -170,20 +185,6 @@ function CreditCard({ credit }: { credit: PersonCredit }) {
 function creditDate(credit: PersonCredit): string | null {
   return credit.release_date ?? credit.first_air_date ?? null;
 }
-
-/** Traduction des départements TMDB (renvoyés en anglais). */
-const DEPARTEMENTS: Record<string, string> = {
-  Acting: "Interprétation",
-  Directing: "Réalisation",
-  Writing: "Écriture",
-  Production: "Production",
-  Camera: "Image",
-  Sound: "Son",
-  Art: "Décors",
-  Crew: "Équipe technique",
-  Editing: "Montage",
-  "Visual Effects": "Effets visuels",
-};
 
 function PersonSkeleton() {
   return (

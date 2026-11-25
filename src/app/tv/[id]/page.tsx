@@ -4,7 +4,9 @@ import type { Metadata } from "next";
 import { formatRuntime, formatYear } from "@/lib/format";
 import { getMediaReviews, getTvDetails } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
-import { loadOrNotFound, metadataTitle } from "@/lib/tmdb-errors";
+import { detailMetadata, loadOrNotFound } from "@/lib/tmdb-errors";
+import { metaDescription, pageMetadata, tvJsonLd, siteUrl } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 import { DetailsSkeleton } from "@/components/DetailsSkeleton";
 import { MediaDetails } from "@/components/MediaDetails";
 
@@ -12,10 +14,19 @@ export async function generateMetadata(
   props: PageProps<"/tv/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
-  return metadataTitle(
+  return detailMetadata(
     id,
     getTvDetails,
-    (show) => show.name,
+    (show) =>
+      pageMetadata({
+        title: show.name,
+        description: metaDescription(
+          show.overview,
+          `${show.name} : saisons, casting, bande-annonce et où regarder la série.`,
+        ),
+        path: `/tv/${show.id}`,
+        type: "video.tv_show",
+      }),
     "Série introuvable",
   );
 }
@@ -51,22 +62,25 @@ async function TvContent({ params }: { params: Promise<{ id: string }> }) {
     .join(" • ");
 
   return (
-    <MediaDetails
-      title={show.name}
-      tagline={show.tagline}
-      overview={show.overview}
-      backdrop={tmdbImage(show.backdrop_path, "w1280")}
-      poster={tmdbImage(show.poster_path, "w342")}
-      year={formatYear(show.first_air_date)}
-      rating={show.vote_average}
-      metaLine={metaLine || null}
-      trailerKey={trailer?.key ?? null}
-      cast={show.credits?.cast?.slice(0, 12) ?? []}
-      similar={show.similar?.results ?? []}
-      similarKind="tv"
-      reviews={reviews}
-      media={show}
-      providers={show["watch/providers"]?.results}
-    />
+    <>
+      <JsonLd data={tvJsonLd(show, siteUrl())} />
+      <MediaDetails
+        title={show.name}
+        tagline={show.tagline}
+        overview={show.overview}
+        backdrop={tmdbImage(show.backdrop_path, "w1280")}
+        poster={tmdbImage(show.poster_path, "w342")}
+        year={formatYear(show.first_air_date)}
+        rating={show.vote_average}
+        metaLine={metaLine || null}
+        trailerKey={trailer?.key ?? null}
+        cast={show.credits?.cast?.slice(0, 12) ?? []}
+        similar={show.similar?.results ?? []}
+        similarKind="tv"
+        reviews={reviews}
+        media={show}
+        providers={show["watch/providers"]?.results}
+      />
+    </>
   );
 }

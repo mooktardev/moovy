@@ -45,3 +45,23 @@ export function ageInYears(birthday: string, end: Date): number {
   if (beforeBirthday) age -= 1;
   return age;
 }
+
+/** Traduction des départements TMDB (renvoyés en anglais). */
+const DEPARTEMENTS: Record<string, string> = {
+  Acting: "Interprétation",
+  Directing: "Réalisation",
+  Writing: "Écriture",
+  Production: "Production",
+  Camera: "Image",
+  Sound: "Son",
+  Art: "Décors",
+  Crew: "Équipe technique",
+  Editing: "Montage",
+  "Visual Effects": "Effets visuels",
+};
+
+/** Métier principal TMDB traduit (« Acting » → « Interprétation »). */
+export function departmentLabel(department: string | null): string | null {
+  if (!department) return null;
+  return DEPARTEMENTS[department] ?? department;
+}

@@ -6,10 +6,14 @@ import { getPopularPeople } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
 import { PosterPlaceholder } from "@/components/PosterPlaceholder";
 import type { PersonSummary } from "@/types/tmdb";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Acteurs",
-};
+  description:
+    "Les actrices et acteurs les plus populaires du moment, avec biographie et filmographie.",
+  path: "/acteurs",
+});
 
 export default async function ActeursPage() {
   const { results } = await getPopularPeople();

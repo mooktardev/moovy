@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   ageInYears,
+  departmentLabel,
   formatDateFr,
   formatRating,
   formatRuntime,
@@ -64,5 +65,16 @@ describe("ageInYears", () => {
 
   it("calcule l'âge au décès", () => {
     expect(ageInYears("1926-06-01", on("1962-08-04"))).toBe(36);
+  });
+});
+
+describe("departmentLabel", () => {
+  it("traduit les départements connus", () => {
+    expect(departmentLabel("Acting")).toBe("Interprétation");
+    expect(departmentLabel("Directing")).toBe("Réalisation");
+  });
+  it("garde les inconnus et gère l'absence", () => {
+    expect(departmentLabel("Lighting")).toBe("Lighting");
+    expect(departmentLabel(null)).toBeNull();
   });
 });

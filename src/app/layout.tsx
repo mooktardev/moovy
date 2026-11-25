@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Inter, Outfit } from "next/font/google";
 import { LINKS } from "@/lib/links";
+import { rootMetadata } from "@/lib/seo";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
 import { Logo } from "@/components/Logo";
 import { Navbar } from "@/components/Navbar";
@@ -19,14 +20,7 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Moovy — Films & séries",
-    template: "%s | Moovy",
-  },
-  description:
-    "Découvrez les films et séries du moment : tendances, fiches détaillées, casting et bandes-annonces.",
-};
+export const metadata: Metadata = rootMetadata();
 
 /**
  * Applique le thème choisi avant la première peinture (pas de flash sombre
