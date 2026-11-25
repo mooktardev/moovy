@@ -3,8 +3,8 @@ import { describe, expect, it, vi } from "vitest";
 import {
   TmdbError,
   isTmdbNotFound,
+  detailMetadata,
   loadOrNotFound,
-  metadataTitle,
   parseTmdbId,
 } from "@/lib/tmdb-errors";
 
@@ -91,42 +91,44 @@ describe("loadOrNotFound", () => {
   });
 });
 
-describe("metadataTitle", () => {
-  const pick = (data: { title: string }) => data.title;
+describe("detailMetadata", () => {
+  const build = (data: { title: string }) => ({
+    title: data.title,
+    description: "desc",
+  });
+  const notFoundMetadata = { title: "Introuvable" };
 
-  it("utilise le titre de la ressource", async () => {
+  it("construit la metadata depuis la ressource", async () => {
     await expect(
-      metadataTitle(
+      detailMetadata(
         "550",
         async () => ({ title: "Fight Club" }),
-        pick,
+        build,
         "Introuvable",
       ),
-    ).resolves.toEqual({ title: "Fight Club" });
+    ).resolves.toEqual({ title: "Fight Club", description: "desc" });
   });
 
   it("affiche « introuvable » pour un id invalide ou un 404", async () => {
     await expect(
-      metadataTitle("abc", vi.fn(), pick, "Introuvable"),
-    ).resolves.toEqual({
-      title: "Introuvable",
-    });
+      detailMetadata("abc", vi.fn(), build, "Introuvable"),
+    ).resolves.toEqual(notFoundMetadata);
     await expect(
-      metadataTitle(
+      detailMetadata(
         "9",
         vi.fn().mockRejectedValue(new TmdbError(404, "Not Found", "/x")),
-        pick,
+        build,
         "Introuvable",
       ),
-    ).resolves.toEqual({ title: "Introuvable" });
+    ).resolves.toEqual(notFoundMetadata);
   });
 
-  it("garde le titre par défaut lors d'une panne", async () => {
+  it("garde la metadata par défaut lors d'une panne", async () => {
     await expect(
-      metadataTitle(
+      detailMetadata(
         "9",
         vi.fn().mockRejectedValue(new TmdbError(500, "Error", "/x")),
-        pick,
+        build,
         "Introuvable",
       ),
     ).resolves.toEqual({});

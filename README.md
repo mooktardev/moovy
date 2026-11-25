@@ -24,6 +24,7 @@ _Accueil en thème clair :_
 - **Recherche** instantanée avec barre dédiée (debounce, navigation pilotée par l'utilisateur)
 - **Ma liste** : watchlist persistée en `localStorage`, synchronisée entre onglets, bouton cœur sur chaque carte
 - **Acteurs** : page des visages populaires et fiches `/person/[id]` (photo, biographie, naissance/décès, filmographie dédoublonnée)
+- **Partage et référencement** : image Open Graph générée pour chaque fiche (affiche, titre, note), balises Open Graph/Twitter, URL canonique, données structurées schema.org (`Movie`, `TVSeries`, `Person`), `sitemap.xml` et `robots.txt`
 - **Thèmes** : sombre par défaut, clair en un clic (sans flash au chargement)
 - **Micro-interactions** : fondu de navigation, apparitions au scroll, anneau de note animé — désactivées si `prefers-reduced-motion`
 
@@ -46,6 +47,7 @@ _Accueil en thème clair :_
 - **Valeurs instables maîtrisées** : tout ce qui dépend de l'heure (`new Date()`) est calculé côté client pour rester compatible avec le prerender.
 - **Images optimisées** : `next/image` avec `sizes` précis, tailles TMDB adaptées au contexte (cartes `w342`, fiches `w780`/`w1280`).
 - **Erreurs distinguées** : un identifiant invalide ou un 404 TMDB affiche la page 404 ; une panne ou un quota dépassé (5xx, 429) affiche la page d'erreur avec « Réessayer » (`src/lib/tmdb-errors.ts`).
+- **SEO** (`src/lib/seo.ts`, `src/lib/og.tsx`) : canonique posée page par page (jamais dans le layout, sinon toutes les pages héritent de celle de l'accueil) ; images Open Graph rendues par `next/og` avec la police Outfit embarquée (aucun appel réseau) ; JSON-LD échappé contre l'injection de `</script>` ; `/search` et `/ma-liste` en `noindex`.
 - **Accessibilité** : anneaux de focus visibles, zones tactiles ≥ 40 px, icônes avec `aria-label`, animations désactivables.
 
 ## 🚀 Installation locale

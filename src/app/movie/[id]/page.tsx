@@ -4,7 +4,9 @@ import type { Metadata } from "next";
 import { formatRuntime, formatYear } from "@/lib/format";
 import { getMediaReviews, getMovieDetails } from "@/lib/tmdb";
 import { tmdbImage } from "@/lib/images";
-import { loadOrNotFound, metadataTitle } from "@/lib/tmdb-errors";
+import { detailMetadata, loadOrNotFound } from "@/lib/tmdb-errors";
+import { metaDescription, pageMetadata, movieJsonLd, siteUrl } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 import { DetailsSkeleton } from "@/components/DetailsSkeleton";
 import { MediaDetails } from "@/components/MediaDetails";
 
@@ -12,10 +14,19 @@ export async function generateMetadata(
   props: PageProps<"/movie/[id]">,
 ): Promise<Metadata> {
   const { id } = await props.params;
-  return metadataTitle(
+  return detailMetadata(
     id,
     getMovieDetails,
-    (movie) => movie.title,
+    (movie) =>
+      pageMetadata({
+        title: movie.title,
+        description: metaDescription(
+          movie.overview,
+          `${movie.title}${movie.release_date ? ` (${formatYear(movie.release_date)})` : ""} : casting, bande-annonce et où regarder le film.`,
+        ),
+        path: `/movie/${movie.id}`,
+        type: "video.movie",
+      }),
     "Film introuvable",
   );
 }
@@ -47,22 +58,25 @@ async function MovieContent({ params }: { params: Promise<{ id: string }> }) {
     .join(" • ");
 
   return (
-    <MediaDetails
-      title={movie.title}
-      tagline={movie.tagline}
-      overview={movie.overview}
-      backdrop={tmdbImage(movie.backdrop_path, "w1280")}
-      poster={tmdbImage(movie.poster_path, "w342")}
-      year={formatYear(movie.release_date)}
-      rating={movie.vote_average}
-      metaLine={metaLine || null}
-      trailerKey={trailer?.key ?? null}
-      cast={movie.credits?.cast?.slice(0, 12) ?? []}
-      similar={movie.similar?.results ?? []}
-      similarKind="movie"
-      reviews={reviews}
-      media={movie}
-      providers={movie["watch/providers"]?.results}
-    />
+    <>
+      <JsonLd data={movieJsonLd(movie, siteUrl())} />
+      <MediaDetails
+        title={movie.title}
+        tagline={movie.tagline}
+        overview={movie.overview}
+        backdrop={tmdbImage(movie.backdrop_path, "w1280")}
+        poster={tmdbImage(movie.poster_path, "w342")}
+        year={formatYear(movie.release_date)}
+        rating={movie.vote_average}
+        metaLine={metaLine || null}
+        trailerKey={trailer?.key ?? null}
+        cast={movie.credits?.cast?.slice(0, 12) ?? []}
+        similar={movie.similar?.results ?? []}
+        similarKind="movie"
+        reviews={reviews}
+        media={movie}
+        providers={movie["watch/providers"]?.results}
+      />
+    </>
   );
 }

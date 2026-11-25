@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 /**
@@ -52,20 +53,23 @@ export async function loadOrNotFound<T>(
 }
 
 /**
- * Titre de `generateMetadata` : « introuvable » uniquement pour un vrai
- * 404, titre par défaut du site sinon (l'erreur sera gérée par la page).
+ * Metadata d'une fiche pour `generateMetadata` : « introuvable »
+ * uniquement pour un id invalide ou un vrai 404 (Next ajoute lui-même
+ * `noindex` à la page 404) ; metadata par défaut du site lors d'une
+ * panne (l'erreur sera gérée par la page).
  */
-export async function metadataTitle<T>(
+export async function detailMetadata<T>(
   rawId: string,
   load: (id: number) => Promise<T>,
-  pick: (data: T) => string,
+  build: (data: T) => Metadata,
   notFoundTitle: string,
-): Promise<{ title?: string }> {
+): Promise<Metadata> {
+  const notFoundMetadata: Metadata = { title: notFoundTitle };
   const id = parseTmdbId(rawId);
-  if (id === null) return { title: notFoundTitle };
+  if (id === null) return notFoundMetadata;
   try {
-    return { title: pick(await load(id)) };
+    return build(await load(id));
   } catch (error) {
-    return isTmdbNotFound(error) ? { title: notFoundTitle } : {};
+    return isTmdbNotFound(error) ? notFoundMetadata : {};
   }
 }

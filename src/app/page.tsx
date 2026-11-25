@@ -1,7 +1,20 @@
+import type { Metadata } from "next";
+
 import { getMovieList, getTrending, getTvList } from "@/lib/tmdb";
+import { DEFAULT_TITLE, SITE_DESCRIPTION, pageMetadata } from "@/lib/seo";
 import { safe } from "@/lib/safe";
 import { Hero } from "@/components/Hero";
 import { MediaRail } from "@/components/MediaRail";
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: DEFAULT_TITLE,
+    description: SITE_DESCRIPTION,
+    path: "/",
+  }),
+  // Titre complet, sans le gabarit « %s | Moovy ».
+  title: { absolute: DEFAULT_TITLE },
+};
 
 export default async function HomePage() {
   const [trending, popularMovies, topRatedMovies, popularTv] =

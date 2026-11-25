@@ -8,6 +8,9 @@ import { MediaGridSkeleton } from "@/components/MediaGridSkeleton";
 
 export const metadata: Metadata = {
   title: "Recherche",
+  description: "Recherchez un film, une série ou une personnalité.",
+  // Page personnelle ou résultats de recherche : rien à indexer.
+  robots: { index: false, follow: true },
 };
 
 export default async function SearchPage(props: PageProps<"/search">) {
