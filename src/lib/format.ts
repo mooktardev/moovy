@@ -31,3 +31,17 @@ export function formatRuntime(
     ? `${hours} h`
     : `${hours} h ${String(rest).padStart(2, "0")}`;
 }
+
+/**
+ * Âge révolu en années entre une date de naissance et `end`
+ * (date de décès, ou aujourd'hui pour une personne vivante).
+ */
+export function ageInYears(birthday: string, end: Date): number {
+  const start = new Date(`${birthday}T00:00:00`);
+  let age = end.getFullYear() - start.getFullYear();
+  const beforeBirthday =
+    end.getMonth() < start.getMonth() ||
+    (end.getMonth() === start.getMonth() && end.getDate() < start.getDate());
+  if (beforeBirthday) age -= 1;
+  return age;
+}

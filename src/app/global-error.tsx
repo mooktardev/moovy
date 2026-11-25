@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { THEME_STORAGE_KEY } from "@/lib/theme";
 import "./globals.css";
 
 interface GlobalErrorProps {
@@ -17,7 +18,7 @@ export default function GlobalError({ error, retry }: GlobalErrorProps) {
   useEffect(() => {
     console.error(error);
     try {
-      if (localStorage.getItem("moovy:theme") === "light") {
+      if (localStorage.getItem(THEME_STORAGE_KEY) === "light") {
         document.documentElement.classList.add("light");
       }
     } catch {

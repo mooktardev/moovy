@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 /**
@@ -20,17 +20,30 @@ export function SearchBar({ className = "" }: { className?: string }) {
   const [value, setValue] = useState(searchParams.get("q") ?? "");
   /** Requête saisie en attente de navigation (null = rien en attente). */
   const pending = useRef<string | null>(null);
-  /** Dernières valeurs de navigation, lues quand le debounce expire. */
-  const locationRef = useRef({ pathname, searchParams, router });
-  locationRef.current = { pathname, searchParams, router };
 
   // Resynchronise le champ avec l'URL (retour arrière, lien partagé),
   // sans écraser une saisie en cours (comparaison sur la valeur trimmée).
-  const urlQuery = searchParams.get("q") ?? "";
-  useEffect(() => {
-    if (pathname !== "/search") return;
-    setValue((current) => (current.trim() === urlQuery ? current : urlQuery));
-  }, [pathname, urlQuery]);
+  // Ajustement pendant le rendu plutôt que dans un effet : React relance
+  // aussitôt le rendu, sans passage intermédiaire à l'écran.
+  const urlQuery =
+    pathname === "/search" ? (searchParams.get("q") ?? "") : null;
+  const [syncedQuery, setSyncedQuery] = useState(urlQuery);
+  if (urlQuery !== syncedQuery) {
+    setSyncedQuery(urlQuery);
+    if (urlQuery !== null && value.trim() !== urlQuery) setValue(urlQuery);
+  }
+
+  // Lit l'URL et le routeur au moment où le debounce expire, sans que
+  // leurs changements ne réarment le timer.
+  const navigate = useEffectEvent((query: string) => {
+    const current = searchParams.get("q") ?? "";
+    const url = query ? `/search?q=${encodeURIComponent(query)}` : "/search";
+    if (pathname === "/search") {
+      if (query !== current) router.replace(url);
+    } else if (query) {
+      router.push(url);
+    }
+  });
 
   // Navigation programmée 300 ms après la dernière frappe. L'effet ne
   // réagit qu'à `value` (la saisie) : un changement d'URL ne réarme pas
@@ -41,14 +54,7 @@ export function SearchBar({ className = "" }: { className?: string }) {
     const timer = setTimeout(() => {
       if (pending.current !== query) return;
       pending.current = null;
-      const { pathname, searchParams, router } = locationRef.current;
-      const current = searchParams.get("q") ?? "";
-      const url = query ? `/search?q=${encodeURIComponent(query)}` : "/search";
-      if (pathname === "/search") {
-        if (query !== current) router.replace(url);
-      } else if (query) {
-        router.push(url);
-      }
+      navigate(query);
     }, 300);
     return () => clearTimeout(timer);
   }, [value]);

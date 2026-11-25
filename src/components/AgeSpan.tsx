@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ageInYears } from "@/lib/format";
+import { useClientValue } from "@/lib/use-client-value";
 
 interface AgeSpanProps {
   /** Date de naissance (AAAA-MM-JJ). */
@@ -12,21 +13,17 @@ interface AgeSpanProps {
 /**
  * Âge en années, calculé côté client uniquement : `new Date()` est une
  * valeur instable que le prerender refuse (blocking-prerender-current-time).
- * Rien n'est rendu avant le montage — zéro mismatch d'hydratation.
+ * Rien n'est rendu au prerender ni à l'hydratation — zéro mismatch.
  */
 export function AgeSpan({ birthday, deathday }: AgeSpanProps) {
-  const [age, setAge] = useState<number | null>(null);
-
-  useEffect(() => {
-    const start = new Date(`${birthday}T00:00:00`);
-    const end = deathday ? new Date(`${deathday}T00:00:00`) : new Date();
-    let value = end.getFullYear() - start.getFullYear();
-    const beforeBirthday =
-      end.getMonth() < start.getMonth() ||
-      (end.getMonth() === start.getMonth() && end.getDate() < start.getDate());
-    if (beforeBirthday) value -= 1;
-    setAge(value);
-  }, [birthday, deathday]);
+  const age = useClientValue(
+    () =>
+      ageInYears(
+        birthday,
+        deathday ? new Date(`${deathday}T00:00:00`) : new Date(),
+      ),
+    null,
+  );
 
   if (age === null) return null;
   return <> ({age} ans)</>;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Inter, Outfit } from "next/font/google";
 import { LINKS } from "@/lib/links";
+import { THEME_STORAGE_KEY } from "@/lib/theme";
 import { Logo } from "@/components/Logo";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
  * Applique le thème choisi avant la première peinture (pas de flash sombre
  * pour les utilisateurs du thème clair). Le thème sombre est le défaut.
  */
-const THEME_SCRIPT = `(function(){try{if(localStorage.getItem("moovy:theme")==="light")document.documentElement.classList.add("light")}catch(e){}})()`;
+const THEME_SCRIPT = `(function(){try{if(localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)})==="light")document.documentElement.classList.add("light")}catch(e){}})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
