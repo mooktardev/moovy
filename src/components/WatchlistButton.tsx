@@ -41,16 +41,16 @@ export function WatchlistButton({
     : `Ajouter « ${item.title} » à ma liste`;
 
   if (variant === "inline") {
+    // Le texte visible sert de nom accessible (WCAG 2.5.3) : un aria-label
+    // différent empêcherait la commande vocale « cliquer Ajouter à ma liste ».
     return (
       <button
         type="button"
         onClick={() => toggle(item)}
         aria-pressed={active}
-        aria-label={label}
-        title={label}
         className={`focus-visible:ring-primary inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 font-medium transition duration-200 ease-out focus-visible:ring-2 focus-visible:outline-none ${
           active
-            ? "border-primary/60 bg-primary/10 text-primary"
+            ? "border-primary/60 bg-primary/10 text-primary-text"
             : "border-border bg-surface-2 text-foreground hover:bg-surface"
         }`}
       >

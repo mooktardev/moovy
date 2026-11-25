@@ -43,7 +43,10 @@ async function SearchResults({
   if (!query) {
     return (
       <section className="mx-auto max-w-7xl px-4 py-24 text-center md:px-6">
-        <p className="text-muted text-lg">
+        <h1 className="font-display text-3xl font-bold md:text-4xl">
+          Recherche
+        </h1>
+        <p className="text-muted mt-2 text-lg">
           Rechercher un film ou une série pour afficher les résultats.
         </p>
       </section>

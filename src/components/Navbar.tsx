@@ -8,7 +8,7 @@ import { Logo } from "@/components/Logo";
 import { SearchBar } from "@/components/SearchBar";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-/** Lien actif en text-primary (guide de style §6). */
+/** Lien actif en text-primary-text (rose lisible, contraste AA). */
 function NavLink({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
   const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -18,7 +18,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
       href={href}
       aria-current={isActive ? "page" : undefined}
       className={`focus-visible:ring-primary rounded-lg px-3 py-2 text-sm font-medium transition duration-200 ease-out focus-visible:ring-2 ${
-        isActive ? "text-primary" : "text-muted hover:text-foreground"
+        isActive ? "text-primary-text" : "text-muted hover:text-foreground"
       }`}
     >
       {label}
@@ -32,7 +32,7 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-3 md:px-6">
         <Link
           href="/"
-          className="font-display text-foreground hover:text-primary focus-visible:ring-primary flex items-center gap-2 text-xl font-bold tracking-tight transition duration-200 ease-out focus-visible:ring-2"
+          className="font-display text-foreground hover:text-primary-text focus-visible:ring-primary flex items-center gap-2 text-xl font-bold tracking-tight transition duration-200 ease-out focus-visible:ring-2"
         >
           <Logo className="size-7 shrink-0" />
           Moovy

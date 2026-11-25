@@ -78,7 +78,10 @@ export function MaListeView() {
             d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 10-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
           />
         </svg>
-        <p className="text-foreground mt-4 text-lg">
+        <h1 className="font-display mt-4 text-3xl font-bold md:text-4xl">
+          Ma liste
+        </h1>
+        <p className="text-foreground mt-2 text-lg">
           Votre liste est vide pour le moment.
         </p>
         <p className="text-muted mt-1">

@@ -2,8 +2,10 @@
 
 /*
  * Tokens du guide de style (STYLE_GUIDE.md §2) — thème sombre par défaut.
- * Le thème clair redéfinit uniquement les 6 couleurs neutres sous `.light`
- * (accent, note et erreur restent identiques) — guide de style §2.
+ * Le thème clair redéfinit les couleurs neutres sous `.light`, ainsi que
+ * les deux couleurs utilisées pour du texte (`--primary-text`, `--danger`),
+ * ajustées pour un contraste WCAG AA (4,5:1) sur chaque fond.
+ * `--primary` reste l'accent des fonds, bordures et icônes (3:1 suffit).
  */
 :root {
   color-scheme: dark;
@@ -14,6 +16,8 @@
   --foreground: #f4f4f5;
   --muted: #a1a1aa;
   --primary: #e11d48;
+  /* Rose éclairci pour le texte : 7,5:1 sur le fond sombre (contre 4,2:1). */
+  --primary-text: #fb7185;
   --rating: #f59e0b;
   --rating-good: #22c55e;
   --danger: #ef4444;
@@ -21,6 +25,9 @@
 
 .light {
   color-scheme: light;
+  /* Rose et rouge foncés : lisibles sur blanc et sur les fonds teintés. */
+  --primary-text: #be123c;
+  --danger: #dc2626;
   --background: #ffffff;
   --surface: #f4f4f5;
   --surface-2: #e4e4e7;
@@ -37,6 +44,7 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-primary: var(--primary);
+  --color-primary-text: var(--primary-text);
   --color-rating: var(--rating);
   --color-rating-good: var(--rating-good);
   --color-danger: var(--danger);
