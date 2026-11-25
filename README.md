@@ -36,7 +36,7 @@ _Accueil en thème clair :_
 - **Ma liste** : favoris enregistrés dans le navigateur, synchronisés entre onglets.
 - **Acteurs** : visages populaires et fiches `/person/[id]` (biographie, filmographie dédoublonnée).
 - **Partage et référencement** : image de partage générée pour chaque fiche (affiche, titre, note), balises Open Graph et Twitter, URL canonique, données structurées schema.org, `sitemap.xml` et `robots.txt`.
-- **Thèmes** sombre et clair, synchronisés entre onglets, sans flash au chargement.
+- **Thèmes** sombre et clair : suit le système à la première visite, puis le choix de l'utilisateur ; synchronisés entre onglets, sans flash au chargement.
 - **Micro-interactions** (fondus, apparitions au scroll), désactivées si `prefers-reduced-motion`.
 
 ## 🛠 Stack technique

@@ -52,7 +52,9 @@ describe("ThemeToggle", () => {
   it("suit le thème choisi dans un autre onglet", () => {
     render(<ThemeToggle />);
 
+    // L'autre onglet écrit dans le stockage partagé, puis l'événement arrive.
     act(() => {
+      localStorage.setItem(THEME_STORAGE_KEY, "light");
       window.dispatchEvent(
         new StorageEvent("storage", {
           key: THEME_STORAGE_KEY,

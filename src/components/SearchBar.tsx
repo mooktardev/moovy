@@ -73,7 +73,7 @@ export function SearchBar({ className = "" }: { className?: string }) {
         pending.current = event.target.value.trim();
         setValue(event.target.value);
       }}
-      placeholder="Rechercher un film…"
+      placeholder="Rechercher un film ou une série…"
       aria-label="Rechercher un film ou une série"
       className={`border-border bg-surface placeholder:text-muted focus:ring-primary w-full rounded-lg border px-4 py-2.5 text-sm focus:ring-2 focus:outline-none ${className}`}
     />

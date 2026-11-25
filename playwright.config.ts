@@ -17,6 +17,9 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
     locale: "fr-FR",
+    // Le site suit le thème du système quand rien n'est choisi : on fixe le
+    // sombre (Playwright émule le clair par défaut) pour des tests stables.
+    colorScheme: "dark",
     trace: "off",
   },
   projects: [
