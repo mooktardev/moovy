@@ -36,7 +36,7 @@ _Home page, light theme:_
 - **Watchlist** ("Ma liste"): saved in the browser and synced across tabs.
 - **People**: popular faces and `/person/[id]` pages (biography, de-duplicated filmography).
 - **Sharing and SEO**: a share image generated for each title (poster, title, rating), Open Graph and Twitter tags, canonical URLs, schema.org structured data, `sitemap.xml` and `robots.txt`.
-- **Dark and light themes**, synced across tabs, with no flash on load.
+- **Dark and light themes**: follows the system on the first visit, then the user's choice; synced across tabs, with no flash on load.
 - **Micro-interactions** (fades, scroll reveals), disabled under `prefers-reduced-motion`.
 
 ## 🛠 Tech stack
