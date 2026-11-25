@@ -12,6 +12,7 @@ import type {
   SortOption,
   TvDetails,
 } from "@/types/tmdb";
+import { TmdbError } from "@/lib/tmdb-errors";
 
 const TMDB_API_URL = "https://api.themoviedb.org/3";
 
@@ -60,9 +61,7 @@ async function tmdbFetch<T>(
   });
 
   if (!response.ok) {
-    throw new Error(
-      `TMDB a répondu ${response.status} (${response.statusText}) pour ${path}`,
-    );
+    throw new TmdbError(response.status, response.statusText, path);
   }
 
   return response.json() as Promise<T>;
