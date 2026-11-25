@@ -1,5 +1,7 @@
 # 🎬 Moovy
 
+[![CI](https://github.com/mooktardev/moovy/actions/workflows/ci.yml/badge.svg)](https://github.com/mooktardev/moovy/actions/workflows/ci.yml)
+
 **Votre escale cinéma : tendances, fiches détaillées et favoris.** Portfolio construit autour de l'API The Movie Database (TMDB).
 
 > 🌐 **Démo en ligne : [moovy-seven.vercel.app](https://moovy-seven.vercel.app)**
@@ -43,6 +45,7 @@ _Accueil en thème clair :_
 - **Watchlist locale** : données complètes stockées au moment de l'ajout via un contexte React — aucune dépendance backend.
 - **Valeurs instables maîtrisées** : tout ce qui dépend de l'heure (`new Date()`) est calculé côté client pour rester compatible avec le prerender.
 - **Images optimisées** : `next/image` avec `sizes` précis, tailles TMDB adaptées au contexte (cartes `w342`, fiches `w780`/`w1280`).
+- **Erreurs distinguées** : un identifiant invalide ou un 404 TMDB affiche la page 404 ; une panne ou un quota dépassé (5xx, 429) affiche la page d'erreur avec « Réessayer » (`src/lib/tmdb-errors.ts`).
 - **Accessibilité** : anneaux de focus visibles, zones tactiles ≥ 40 px, icônes avec `aria-label`, animations désactivables.
 
 ## 🚀 Installation locale
@@ -61,6 +64,16 @@ npm run dev        # http://localhost:3000
 # 4. Production locale
 npm run build && npm start
 ```
+
+## ✅ Qualité
+
+```bash
+npm test           # tests unitaires et de composants (Vitest + Testing Library)
+npm run lint       # ESLint
+npm run typecheck  # types des routes Next + TypeScript
+```
+
+La CI GitHub Actions (`.github/workflows/ci.yml`) lance formatage, lint, types et tests à chaque push et pull request, puis le build de production si le secret `TMDB_ACCESS_TOKEN` est configuré dans le dépôt.
 
 ## 📁 Structure
 

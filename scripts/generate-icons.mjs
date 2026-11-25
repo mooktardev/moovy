@@ -21,11 +21,25 @@ const SIZE = 128;
 const RADIUS = 28; // coins du carré arrondi
 // Polygone du M (fill-rule evenodd) — points du path « M28 96 V36 ... Z ».
 const M_PATH = [
-  [28, 96], [28, 36], [52, 62], [64, 47], [76, 62], [100, 36],
-  [100, 96], [82, 96], [82, 68], [64, 89], [46, 68], [46, 96],
+  [28, 96],
+  [28, 36],
+  [52, 62],
+  [64, 47],
+  [76, 62],
+  [100, 36],
+  [100, 96],
+  [82, 96],
+  [82, 68],
+  [64, 89],
+  [46, 68],
+  [46, 96],
 ];
 // Triangle play « M58 44 L82 30 L82 58 Z ».
-const PLAY_PATH = [[58, 44], [82, 30], [82, 58]];
+const PLAY_PATH = [
+  [58, 44],
+  [82, 30],
+  [82, 58],
+];
 
 /** Point dans un polygone (règle pair-impair, comme fill-rule="evenodd"). */
 function pointInPolygonEvenOdd(x, y, polygon) {
@@ -52,7 +66,9 @@ function roundedRectSDF(x, y, half, radius) {
 /** Couleur du dégradé diagonal en (x, y) — projection sur la direction (1,1). */
 function gradientAt(x, y) {
   const t = (x + y) / (2 * SIZE);
-  return [0, 1, 2].map((c) => Math.round(GRAD_FROM[c] + (GRAD_TO[c] - GRAD_FROM[c]) * t));
+  return [0, 1, 2].map((c) =>
+    Math.round(GRAD_FROM[c] + (GRAD_TO[c] - GRAD_FROM[c]) * t),
+  );
 }
 
 /**
@@ -64,7 +80,10 @@ function renderLogo(size, { fullBleed = false, ss = 4 } = {}) {
   const pixels = new Uint8Array(size * size * 4);
   for (let py = 0; py < size; py++) {
     for (let px = 0; px < size; px++) {
-      let r = 0, g = 0, b = 0, a = 0;
+      let r = 0,
+        g = 0,
+        b = 0,
+        a = 0;
       for (let sy = 0; sy < ss; sy++) {
         for (let sx = 0; sx < ss; sx++) {
           const x = ((px + (sx + 0.5) / ss) / size) * SIZE;
@@ -75,9 +94,13 @@ function renderLogo(size, { fullBleed = false, ss = 4 } = {}) {
             : roundedRectSDF(x - 64, y - 64, 64, RADIUS) > 0;
           if (outside) continue;
           const glyph =
-            pointInPolygonEvenOdd(x, y, M_PATH) || pointInPolygonEvenOdd(x, y, PLAY_PATH);
+            pointInPolygonEvenOdd(x, y, M_PATH) ||
+            pointInPolygonEvenOdd(x, y, PLAY_PATH);
           const [cr, cg, cb] = glyph ? GLYPH : gradientAt(x, y);
-          r += cr; g += cg; b += cb; a += 255;
+          r += cr;
+          g += cg;
+          b += cb;
+          a += 255;
         }
       }
       const n = ss * ss;
@@ -106,12 +129,13 @@ function crc32(bytes) {
 }
 
 function adler32(bytes) {
-  let a = 1, b = 0;
+  let a = 1,
+    b = 0;
   for (const byte of bytes) {
     a = (a + byte) % 65521;
     b = (b + a) % 65521;
   }
-  return (b << 16 | a) >>> 0;
+  return ((b << 16) | a) >>> 0;
 }
 
 function chunk(type, data) {
@@ -138,13 +162,16 @@ function encodePng(width, height, rgba) {
   const blocks = Math.ceil(raw.length / 65535);
   const zlib = new Uint8Array(2 + raw.length + blocks * 5 + 4);
   let o = 0;
-  zlib[o++] = 0x78; zlib[o++] = 0x01; // CMF/FLG (deflate, pas de dictionnaire)
+  zlib[o++] = 0x78;
+  zlib[o++] = 0x01; // CMF/FLG (deflate, pas de dictionnaire)
   for (let i = 0; i < blocks; i++) {
     const len = Math.min(65535, raw.length - i * 65535);
     const last = i === blocks - 1;
     zlib[o++] = last ? 0x01 : 0x00;
-    zlib[o++] = len & 0xff; zlib[o++] = len >>> 8; // LEN
-    zlib[o++] = ~len & 0xff; zlib[o++] = (~len >>> 8) & 0xff; // NLEN
+    zlib[o++] = len & 0xff;
+    zlib[o++] = len >>> 8; // LEN
+    zlib[o++] = ~len & 0xff;
+    zlib[o++] = (~len >>> 8) & 0xff; // NLEN
     zlib.set(raw.subarray(i * 65535, i * 65535 + len), o);
     o += len;
   }
@@ -153,15 +180,23 @@ function encodePng(width, height, rgba) {
 
   const ihdr = new Uint8Array(13);
   const idv = new DataView(ihdr.buffer);
-  idv.setUint32(0, width); idv.setUint32(4, height);
+  idv.setUint32(0, width);
+  idv.setUint32(4, height);
   ihdr[8] = 8; // profondeur
   ihdr[9] = 6; // RGBA
-  const signature = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  const signature = new Uint8Array([
+    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+  ]);
   const idat = chunk(new Uint8Array([0x49, 0x44, 0x41, 0x54]), zlib);
-  const iend = chunk(new Uint8Array([0x49, 0x45, 0x4e, 0x44]), new Uint8Array(0));
+  const iend = chunk(
+    new Uint8Array([0x49, 0x45, 0x4e, 0x44]),
+    new Uint8Array(0),
+  );
   const ihdrChunk = chunk(new Uint8Array([0x49, 0x48, 0x44, 0x52]), ihdr);
 
-  const png = new Uint8Array(signature.length + ihdrChunk.length + idat.length + iend.length);
+  const png = new Uint8Array(
+    signature.length + ihdrChunk.length + idat.length + iend.length,
+  );
   let p = 0;
   for (const part of [signature, ihdrChunk, idat, iend]) {
     png.set(part, p);
