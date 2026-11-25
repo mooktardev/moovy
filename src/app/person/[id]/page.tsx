@@ -186,9 +186,10 @@ function creditDate(credit: PersonCredit): string | null {
   return credit.release_date ?? credit.first_air_date ?? null;
 }
 
+/** Au moins un écran de haut : pas de saut du pied de page (CLS). */
 function PersonSkeleton() {
   return (
-    <section className="mx-auto max-w-7xl space-y-6 px-4 py-12 md:px-6">
+    <section className="mx-auto min-h-screen max-w-7xl space-y-6 px-4 py-12 md:px-6">
       <div className="flex flex-col gap-6 sm:flex-row">
         <div className="rounded-card bg-surface-2 aspect-[2/3] w-36 animate-pulse sm:w-44" />
         <div className="flex-1 space-y-3">
