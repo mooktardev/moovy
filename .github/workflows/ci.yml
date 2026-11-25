@@ -32,15 +32,10 @@ jobs:
       - name: Tests (Vitest)
         run: npm test
 
-  build:
-    name: Build de production
+  e2e:
+    name: Build de production et tests e2e
     runs-on: ubuntu-latest
     needs: checks
-    env:
-      # Le prerender interroge TMDB : la clé vient des secrets du dépôt.
-      # Sans secret (forks, PR externes), l'étape est sautée, pas en échec.
-      TMDB_ACCESS_TOKEN: ${{ secrets.TMDB_ACCESS_TOKEN }}
-      NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -48,9 +43,18 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: next build
-        if: env.TMDB_ACCESS_TOKEN != ''
-        run: npm run build
-      - name: Build ignoré
-        if: env.TMDB_ACCESS_TOKEN == ''
-        run: echo "::notice::Secret TMDB_ACCESS_TOKEN absent, build ignoré."
+      - name: Navigateur Playwright
+        run: npx playwright install --with-deps chromium
+      # Build de production branché sur le faux TMDB (e2e/mock-tmdb) :
+      # aucune clé ni accès réseau à TMDB nécessaires.
+      - name: Tests e2e (Playwright)
+        run: npx playwright test
+      - name: Rapport en cas d'échec
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

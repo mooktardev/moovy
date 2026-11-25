@@ -14,7 +14,12 @@ import type {
 } from "@/types/tmdb";
 import { TmdbError } from "@/lib/tmdb-errors";
 
-const TMDB_API_URL = "https://api.themoviedb.org/3";
+const DEFAULT_TMDB_API_URL = "https://api.themoviedb.org/3";
+
+/** URL de l'API, surchargeable par `TMDB_API_URL` (faux TMDB des tests e2e). */
+function tmdbApiUrl(): string {
+  return (process.env.TMDB_API_URL || DEFAULT_TMDB_API_URL).replace(/\/+$/, "");
+}
 
 /** Durée de mise en cache des réponses TMDB (1 h). */
 const REVALIDATE_SECONDS = 3600;
@@ -55,7 +60,7 @@ async function tmdbFetch<T>(
     );
   }
 
-  const response = await fetch(`${TMDB_API_URL}${path}?${search}`, {
+  const response = await fetch(`${tmdbApiUrl()}${path}?${search}`, {
     headers,
     next: { revalidate: REVALIDATE_SECONDS },
   });
