@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Inter, Outfit } from "next/font/google";
 import { LINKS } from "@/lib/links";
 import { rootMetadata } from "@/lib/seo";
-import { THEME_STORAGE_KEY } from "@/lib/theme";
+import { THEME_SCRIPT } from "@/lib/theme";
 import { Logo } from "@/components/Logo";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -22,12 +22,6 @@ const outfit = Outfit({
 
 export const metadata: Metadata = rootMetadata();
 
-/**
- * Applique le thème choisi avant la première peinture (pas de flash sombre
- * pour les utilisateurs du thème clair). Le thème sombre est le défaut.
- */
-const THEME_SCRIPT = `(function(){try{if(localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)})==="light")document.documentElement.classList.add("light")}catch(e){}})()`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -36,6 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col font-sans">
+        {/* Thème (choix enregistré ou système) posé avant la première peinture. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <WatchlistProvider>
           {/*

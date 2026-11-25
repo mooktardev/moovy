@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { THEME_STORAGE_KEY } from "@/lib/theme";
+import { applyResolvedTheme } from "@/lib/theme";
 import "./globals.css";
 
 interface GlobalErrorProps {
@@ -12,18 +12,12 @@ interface GlobalErrorProps {
 /**
  * Filet de sécurité pour les erreurs du layout racine : remplace tout le
  * document, d'où ses propres <html>/<body> et l'import des styles globaux.
- * Le thème clair est réappliqué à la main (le script du layout n'est pas là).
+ * Le thème est réappliqué à la main (le script du layout n'est pas là).
  */
 export default function GlobalError({ error, retry }: GlobalErrorProps) {
   useEffect(() => {
     console.error(error);
-    try {
-      if (localStorage.getItem(THEME_STORAGE_KEY) === "light") {
-        document.documentElement.classList.add("light");
-      }
-    } catch {
-      // Stockage indisponible : on garde le thème sombre par défaut.
-    }
+    applyResolvedTheme();
   }, [error]);
 
   return (
