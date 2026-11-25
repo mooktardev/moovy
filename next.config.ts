@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Les tests e2e construisent l'app avec le faux TMDB dans un dossier à
+  // part, pour ne jamais mélanger ce build avec celui du développement.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   cacheComponents: true,
   partialPrefetching: true,
   images: {

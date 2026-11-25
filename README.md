@@ -71,11 +71,14 @@ npm run build && npm start
 
 ```bash
 npm test           # tests unitaires et de composants (Vitest + Testing Library)
+npm run test:e2e   # tests de bout en bout (Playwright, build de production)
 npm run lint       # ESLint
 npm run typecheck  # types des routes Next + TypeScript
 ```
 
-La CI GitHub Actions (`.github/workflows/ci.yml`) lance formatage, lint, types et tests à chaque push et pull request, puis le build de production si le secret `TMDB_ACCESS_TOKEN` est configuré dans le dépôt.
+Les tests e2e construisent l'application en production (dans `.next-e2e`) et la branchent sur un **faux TMDB** (`e2e/mock-tmdb`) : ni clé, ni réseau, des données stables. Ils couvrent l'accueil et les fiches, le casting, les catalogues, la recherche (dont la régression du retour sur `/search`), Ma liste (persistance et synchronisation entre onglets), les pages 404 et d'erreur, le thème et les balises SEO, sur bureau et mobile. Première exécution locale : `npx playwright install chromium`.
+
+La CI GitHub Actions (`.github/workflows/ci.yml`) lance formatage, lint, types et tests unitaires, puis le build de production et les tests e2e, à chaque push et pull request.
 
 ## 📁 Structure
 
@@ -84,8 +87,9 @@ src/
 ├── app/                  # Routes App Router (/, /films, /series, /movie/[id], /tv/[id],
 │                         #   /person/[id], /acteurs, /search, /ma-liste)
 ├── components/           # Composants UI (cartes, rails, fiches, footer…)
-├── lib/                  # Client TMDB (server-only), format FR, images, watchlist
+├── lib/                  # Client TMDB (server-only), format FR, images, watchlist, SEO
 └── types/                # Types des réponses TMDB
+e2e/                      # Tests Playwright + faux serveur TMDB (mock-tmdb/)
 ```
 
 ## 🙏 Crédits

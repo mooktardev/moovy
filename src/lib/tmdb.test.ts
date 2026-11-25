@@ -67,6 +67,17 @@ describe("tmdbFetch", () => {
     expect(init.headers.Authorization).toBe("Bearer jeton-de-test");
   });
 
+  it("utilise TMDB_API_URL quand elle est définie", async () => {
+    vi.stubEnv("TMDB_API_URL", "http://127.0.0.1:4010/3/");
+    fetchMock.mockResolvedValue(Response.json({ id: 550 }));
+
+    await getMovieDetails(550);
+
+    expect(String(fetchMock.mock.calls[0][0])).toMatch(
+      /^http:\/\/127\.0\.0\.1:4010\/3\/movie\/550\?/,
+    );
+  });
+
   it("utilise la clé v3 en paramètre à défaut de jeton", async () => {
     vi.stubEnv("TMDB_ACCESS_TOKEN", "");
     vi.stubEnv("TMDB_API_KEY", "cle-v3");
